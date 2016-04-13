@@ -225,7 +225,7 @@ TyvisProcedureDeclaration::_mangle_declarator() {
   
   //Mangling with the argument types
   if( dynamic_cast<TyvisStringLiteral*>(_get_declarator()) != NULL ){
-    (dynamic_cast<TyvisStringLiteral*>(get_declarator()))->_convert_function_name(newMangledDeclarator);
+    newMangledDeclarator << (dynamic_cast<TyvisStringLiteral*>(get_declarator()))->_convert_function_name();
   } 
   else {
     newMangledDeclarator << "savant" << *(_get_declarator());

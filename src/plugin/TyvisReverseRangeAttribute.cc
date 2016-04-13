@@ -29,6 +29,7 @@
 #include "TyvisRightAttribute.hh"
 #include "TyvisTypeDeclaration.hh"
 #include "published_file.hh"
+#include "tyvis.hh"
 
 void 
 TyvisReverseRangeAttribute::_publish_cc_range( published_file &_cc_out,

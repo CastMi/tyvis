@@ -1,4 +1,3 @@
-
 // Copyright (c) 1996-2003 The University of Cincinnati.
 // All rights reserved.
 
@@ -27,6 +26,7 @@
 #include "TyvisFunctionDeclaration.hh"
 #include "TyvisHighAttribute.hh"
 #include "TyvisScalarTypeDefinition.hh"
+#include "tyvis.hh"
 
 const string &
 TyvisHighAttribute::_get_cc_attribute_name() const {

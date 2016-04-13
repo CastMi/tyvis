@@ -28,6 +28,9 @@ include $(top_srcdir)/Makefile.am.common
 
 lib_LTLIBRARIES = libtyvisplugin.la
 
+libtyvisplugin_la_CPPFLAGS = \
+	-I$(top_srcdir)/src
+
 libtyvisplugin_la_LDFLAGS = \
 	-module \
 	-avoid-version

@@ -17,7 +17,6 @@
 // version 2, June 1991. A copy of this license agreement can be found in
 // the file "LGPL", distributed with this archive.
 
-#include "savant/savant_config.hh"
 #include "TyvisArchitectureDeclaration.hh"
 #include "TyvisCommentList.hh"
 #include "TyvisDesignFile.hh"
@@ -27,6 +26,7 @@
 #include "TyvisLibraryDeclaration.hh"
 #include "TyvisLibraryUnitList.hh"
 #include <savant/generic_parser.hh>
+#include <savant/savant_config.hh>
 #include "savant/set.hh"
 #include "published_makefile.hh"
 #include "published_cc_file.hh"

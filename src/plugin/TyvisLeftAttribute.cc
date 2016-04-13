@@ -27,6 +27,7 @@
 #include "TyvisScalarTypeDefinition.hh"
 #include "TyvisConstantDeclaration.hh"
 #include "TyvisFunctionDeclaration.hh"
+#include "tyvis.hh"
 
 const string &
 TyvisLeftAttribute::_get_cc_attribute_name() const {

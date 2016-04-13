@@ -28,12 +28,10 @@
 #include "TyvisArchitectureStatementList.hh"
 #include "TyvisSimultaneousStatement.hh"
 #include "TyvisProcessStatement.hh"
-
-#include "savant/savant.hh"
-#include "savant/error_func.hh"
+#include <savant/savant.hh>
+#include <savant/error_func.hh>
 #include "published_cc_file.hh"
-#include "savant/language_processing_control.hh"
-
+#include <savant/language_processing_control.hh>
 #include <iostream>
 
 using std::cerr;

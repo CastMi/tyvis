@@ -25,6 +25,7 @@
 
 #include "TyvisLibraryClause.hh"
 #include "TyvisLibraryDeclaration.hh"
+#include "tyvis.hh"
 
 void
 TyvisLibraryClause::_publish_cc_include_path( ostream &os ){

@@ -26,6 +26,7 @@
 #include "TyvisLengthAttribute.hh"
 #include "TyvisConstantDeclaration.hh"
 #include "TyvisIntegerTypeDefinition.hh"
+#include "tyvis.hh"
 
 const string &
 TyvisLengthAttribute::_get_cc_attribute_name() const {

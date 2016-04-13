@@ -27,6 +27,7 @@
 #include "TyvisScalarTypeDefinition.hh"
 #include "TyvisArrayTypeDefinition.hh"
 #include "published_file.hh"
+#include "tyvis.hh"
 
 void 
 TyvisExpression::_publish_cc_bounds( published_file &_cc_out, PublishData *declarations ) {
