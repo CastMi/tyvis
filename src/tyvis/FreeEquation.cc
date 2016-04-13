@@ -79,7 +79,7 @@ freeEquation::freeEquation(_savant_entity_ams_elab *designPtr, component **&pare
 
 freeEquation::freeEquation(const char* name, adouble (*functionPtr) (component *, adouble*),
                            int noOfVariables, VHDLType **Qty) 
-  :component(name) {
+  :component(name, FREE_EQN) {
   
   // Assign the function pointer to the member.
   functionPointer = functionPtr;
@@ -111,8 +111,7 @@ freeEquation::freeEquation(const char* name, adouble (*functionPtr) (component *
     }
   }
   freeQty[0]->setUsed();
-  
-  equationType = FREE_EQN;
+
   base = new int[numberOfQuantities];
   
   // Initializing the counter for number of pointers.

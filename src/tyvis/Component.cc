@@ -25,7 +25,15 @@
 #include "AMSKernel_state.hh"
 #include "_savant_entity_ams_elab.hh"
 
-component::component(const char* compName) : name(compName) {}
+component::component(const char* compName, eqnType type)
+   : next(nullptr),
+   equationType(type),
+   name(compName) {}
+
+eqnType
+component::getEquationType() const {
+   return equationType;
+}
 
 void
 component::buildQuantitySet(list<Quantity *> *quantitySet) {

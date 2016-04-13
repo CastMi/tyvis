@@ -67,7 +67,7 @@ public:
 
   /** Funtion to return the equation type. Every equation has this
       function. Defined as a pure virtual function. */ 
-  virtual eqnType getEquationType()=0;
+  eqnType getEquationType() const;
 
   /** Every equation has this function to determine the row for this
       equation in the matrix. */ 

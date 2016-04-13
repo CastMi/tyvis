@@ -30,11 +30,6 @@ extern int globalAMSId;
 
 using clutils::debug;
 
-eqnType
-branchEquation::getEquationType() {
-  return equationType;
-}
-
 bool 
 branchEquation::getConsCheck() {
   return conservativeCheck;
@@ -48,8 +43,9 @@ branchEquation::~branchEquation() {
 }
 
 branchEquation::branchEquation(_savant_entity_ams_elab *designPtr, component **&parent_equation, int caseValue , const char* name,
-                               adouble(*functionPtr) (component *, adouble *),int noOfVariables, ...) {
-  component *equation = NULL;
+                               adouble(*functionPtr) (component *, adouble *),int noOfVariables, ...)
+  : component(name, BRANCH_EQN) {
+  component* equation = NULL;
   numberOfQuantities = noOfVariables;
 
   va_list ap;
@@ -81,7 +77,8 @@ branchEquation::branchEquation(_savant_entity_ams_elab *designPtr, component **&
 }
 
 branchEquation::branchEquation(const char* name, adouble(*functionPtr) (component *, adouble *),
-                               int noOfVariables, VHDLType **Qty) : component(name) {
+                               int noOfVariables, VHDLType **Qty)
+  : component(name, BRANCH_EQN) {
   
   numberOfQuantities = noOfVariables;
   functionPointer = functionPtr;
@@ -96,7 +93,6 @@ branchEquation::branchEquation(const char* name, adouble(*functionPtr) (componen
     branchQty[i] = (Quantity *)currentQty->getObject();
   }
   matrixCount = 0;
-  equationType = BRANCH_EQN;
   int numberOfCorrectValues = 0;
   noOfThroOrFreeQuantities = 0;
   if (numberOfQuantities == 1) {

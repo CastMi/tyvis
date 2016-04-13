@@ -61,10 +61,7 @@ public:
                        VHDLType* quantityTickDot);
   
   /** Destructor for the class */
-  virtual ~differentialEquation(void); 
-
-  /** Return type of equation. */
-  virtual eqnType getEquationType();
+  virtual ~differentialEquation(void);
 
   /** Initialisation function for each component. */
   virtual void init();

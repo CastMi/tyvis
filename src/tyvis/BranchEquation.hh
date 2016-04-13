@@ -93,9 +93,6 @@ public:
       @param negNode negative node of the branch. */
   virtual int findBranch(int posNode, int negNode);
 
-  /** Return type of equation. */  
-  virtual eqnType getEquationType();
-
   /** Return list of quantities for this equation. */
   virtual Quantity** getQuantities();
 

@@ -40,7 +40,8 @@ differentialEquation::differentialEquation(component **&parent_equation, const c
 }
 
 differentialEquation::differentialEquation(const char* name, VHDLType* implicitQty,
-                                           VHDLType* quantityTickDot) : component(name) {
+                                           VHDLType* quantityTickDot)
+  : component(name, DIFFERENTIAL_EQN) {
 
   ASSERT(implicitQty->getObject()->getKind() == ObjectBase::QUANTITY);
   ASSERT(((Quantity *)implicitQty->getObject())->getType() == IMPLICIT);
@@ -48,7 +49,6 @@ differentialEquation::differentialEquation(const char* name, VHDLType* implicitQ
   branchQty = new (Quantity*)[2];
   branchQty[0] = (Quantity*)implicitQty->getObject();
   branchQty[1] = (Quantity*)quantityTickDot->getObject();
-  equationType = DIFFERENTIAL_EQN;
   int matrixCount;
   if (branchQty[1]->getType() == ACROSS){
    matrixCount = 3;
@@ -198,11 +198,5 @@ differentialEquation::trunc(double *timeStep) {
   ckt->truncError(stateVectorIndex,timeStep);
   return(0);
 }
-
-eqnType
-differentialEquation::getEquationType(){
-  return equationType;
-}
-
 
 #endif

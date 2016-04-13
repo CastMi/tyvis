@@ -57,11 +57,6 @@ public:
   freeEquation(const char* name, adouble (*functionPtr) (component *, adouble*),
                int noOfVariables, VHDLType **Qty);
 
-  /** Gets the type of the Equation. */
-  virtual eqnType getEquationType() {
-    return equationType;
-  }
-
   /** Destructor. */
   virtual ~freeEquation(void);
 
