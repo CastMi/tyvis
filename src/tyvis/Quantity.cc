@@ -92,8 +92,8 @@ Quantity::getType() const {
 
 void 
 Quantity::setName(char *name) {
-   quantityName = new char [strlen(name)];
-   strcpy(quantityName,name) ;
+   quantityName = new char [strlen(name) + 1];
+   strncpy(quantityName, name, strlen(name));
 }
 
 void 
