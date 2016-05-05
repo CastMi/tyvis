@@ -29,10 +29,10 @@ using std::list;
 extern int globalAMSId;
 extern list<contributionNode *> globalContributionList;
 
-Terminal::Terminal() {
-   terminalName = NULL;
-   terminalId = 0;
-}
+Terminal::Terminal()
+   : used(0),
+    terminalName(nullptr),
+    terminalId(0) {}
 
 Terminal::Terminal(char *name) {
   terminalName = name;

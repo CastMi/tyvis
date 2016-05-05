@@ -27,16 +27,17 @@ AccessVariable::print(ostream& os) const {
 AccessVariable::AccessVariable( const TypeInfo &initTypeInfo ) :
   ObjectBase( initTypeInfo, "" ),
   curPos(0),
-  val(""){}
+  val() {}
 
 AccessVariable::AccessVariable( const TypeInfo &initTypeInfo,
 				const string &initName ) :
-  ObjectBase( initTypeInfo, initName ){}
+  ObjectBase( initTypeInfo, initName ),
+  curPos(0) {}
 
 AccessVariable::AccessVariable( const AccessVariable &that ) : 
   ObjectBase( that ),
   curPos( that.curPos ),
-  val( that.val ){}
+  val( that.val ) {}
 
 AccessVariable &
 AccessVariable::operator=( const AccessVariable &that ) {
@@ -56,7 +57,7 @@ AccessVariable::operator=( const string &newVal ){
 
 void 
 AccessVariable::reset(){
-  val = "";
+  val.clear();
   curPos = 0;
 }
 

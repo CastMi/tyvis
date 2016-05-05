@@ -22,33 +22,55 @@
 
 #include "Quantity.hh"
 
-Quantity::Quantity() { 
-inTheSet = false;
-}
+Quantity::Quantity()
+   : quantityName(nullptr),
+     loadedInMatrix(false),
+     presentVal(0.0),
+     posNodeVal(0.0),
+     negNodeVal(0.0),
+     inTheSet(false),
+     value(),
+     quantityType(),
+     posTerminal(nullptr),
+     negTerminal(nullptr),
+     index(0),
+     used(0),
+     sourceCurrent(false),
+     previousVal(0.0) {}
 
-Quantity::~Quantity() { }
+Quantity::~Quantity() {}
 
-Quantity::Quantity(char *name, quantityTypes qType, Terminal *pos, Terminal *neg, double val) {
-  quantityType = qType;
-  quantityName = name;
-  setPosTerminal(pos);
-  setNegTerminal(neg);
-  value.val = val ;
-  sourceCurrent = false;
-  used = 0;
-  inTheSet = false;
-}
+Quantity::Quantity(char *name, quantityTypes qType, Terminal *pos, Terminal *neg, double val)
+   : quantityName(name),
+     loadedInMatrix(false),
+     presentVal(0.0),
+     posNodeVal(0.0),
+     negNodeVal(0.0),
+     inTheSet(false),
+     value(val),
+     quantityType(qType),
+     PosTerminal(pos),
+     NegTerminal(neg),
+     index(0),
+     used(0),
+     sourceCurrent(false),
+     previousVal(0.0) {}
 
-Quantity::Quantity(char *name, quantityTypes qType, double reltol, double abstol, Terminal *pos ,Terminal *neg,double val) {
-  quantityType = qType;
-  quantityName = name;
-  setPosTerminal(pos);
-  setNegTerminal(neg);
-  value.val = val ;
-  sourceCurrent = false;
-  used = 0;
-  inTheSet = false;
-}
+Quantity::Quantity(char *name, quantityTypes qType, double reltol, double abstol, Terminal *pos ,Terminal *neg,double val)
+   : quantityName(name),
+     loadedInMatrix(false),
+     presentVal(0.0),
+     posNodeVal(0.0),
+     negNodeVal(0.0),
+     inTheSet(false),
+     value(val),
+     quantityType(qType),
+     PosTerminal(pos),
+     NegTerminal(neg),
+     index(0),
+     used(0),
+     sourceCurrent(false),
+     previousVal(0.0) {}
 
 bool
 Quantity::isLoaded() {

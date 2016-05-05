@@ -33,7 +33,8 @@ component* _savant_entity_ams_elab::basicSet = NULL;
 
 int freeEquationId,oldFreeEquationId;
 
-_savant_entity_ams_elab::_savant_entity_ams_elab() {}
+_savant_entity_ams_elab::_savant_entity_ams_elab()
+   : terminalInfo(nullptr) {}
 
 void
 _savant_entity_ams_elab::connectTerminals(int, ...) {

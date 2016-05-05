@@ -35,7 +35,10 @@ public:
   //@{
 
   /** Constructor. **/
-  VHDLVTime( unsigned int major, unsigned int minor, unsigned int reg ) : VTime(major, minor, reg) {}
+  VHDLVTime( unsigned int major, unsigned int minor, unsigned int reg )
+     : VTime(major, minor, reg),
+      myMajor(0),
+      myMinor(0) {}
 
   /** Get Major VTime.
 	

@@ -130,6 +130,7 @@ CallStack&
 CallStack::operator = (const CallStack& stack) {
   StackElement *elem = stack.getTop();
   StackElement *newelem;
+  numElements = 0;
   while(elem != NULL) {
     newelem = new StackElement;
     newelem->numArgs = elem->numArgs;

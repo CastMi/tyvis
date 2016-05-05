@@ -32,6 +32,16 @@ Alias::Alias( RValue &initObject ) :
   myInd(0) {
 }
 
+Alias::Alias( const Alias &that ) :
+  LValue( that ),
+  realObject( that.realObject ){
+}
+
+Alias::~Alias(){
+  if (myInd)
+    delete myInd;
+}
+
 Alias::Alias( const ArrayInfo &info, RValue &initObject ) :
   realObject( const_cast<RValue &>(initObject) ){
   if (initObject.isCompositeType()) {
@@ -96,16 +106,6 @@ Alias::Alias( const ArrayTypeInfo &info, RValue &initObject ) :
     b = 0;
     myInd = 0;
   }
-}
-
-Alias::Alias( const Alias &that ) :
-  LValue( that ),
-  realObject( that.realObject ){
-}
-
-Alias::~Alias(){
-  if (myInd)
-    delete myInd;
 }
 
 const RValue &

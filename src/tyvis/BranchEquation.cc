@@ -44,9 +44,20 @@ branchEquation::~branchEquation() {
 
 branchEquation::branchEquation(_savant_entity_ams_elab *designPtr, component **&parent_equation, int caseValue , const char* name,
                                adouble(*functionPtr) (component *, adouble *),int noOfVariables, ...)
-  : component(name, BRANCH_EQN) {
-  component* equation = NULL;
-  numberOfQuantities = noOfVariables;
+  : component(name, BRANCH_EQN),
+   numberOfQuantities(noOfVariables),
+   implicitEquationList(nullptr),
+   conservativeCheck(false),
+   functionPointer(nullptr),
+   dcMatrixPointers(nullptr),
+   transientMatrixPointers(nullptr)
+   matrixCount(0),
+   base(nullptr),
+   correctValue(nullptr),
+   branchQty(nullptr),
+   branch(0),
+   sourceCurrent(0) {
+   component *equation = nullptr;
 
   va_list ap;
   va_start(ap, noOfVariables);

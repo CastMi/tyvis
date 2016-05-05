@@ -36,11 +36,11 @@ struct StackElement {
 
 class CallStack {
 public:
-  CallStack() {
-    stackTop = NULL;
-    stackBottom = NULL;
-    numElements = 0;
-  };
+  CallStack() :
+    stackTop(nullptr),
+    stackBottom(nullptr),
+    currentTop(nullptr),
+    numElements(0) {};
   virtual ~CallStack() {
     cleanStack();
   }

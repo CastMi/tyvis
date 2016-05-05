@@ -19,10 +19,10 @@
 
 #include "QuantityNode.hh"
 
-quantityNode::quantityNode() {
-  next = NULL;
-  contribution = 0;
-}
+quantityNode::quantityNode()
+  : qty(nullptr),
+  contribution(0),
+  next(nullptr) {}
 
 quantityNode::~quantityNode() {}
 
