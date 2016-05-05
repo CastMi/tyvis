@@ -33,7 +33,7 @@ class IntegerTypeInfo;
 class EnumerationTypeInfo : public ScalarTypeInfo {
 public:
   EnumerationTypeInfo();
-  EnumerationTypeInfo( const vector<string> &imageMap );
+  explicit EnumerationTypeInfo( const vector<string> &imageMap );
   EnumerationTypeInfo( const IntegerTypeInfo &range,
 		       const vector<string> &imageMap );
   ~EnumerationTypeInfo();

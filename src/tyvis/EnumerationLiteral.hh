@@ -39,7 +39,7 @@ public:
   EnumerationLiteral( const EnumerationTypeInfo &,
 		      const RValue &value );
   
-  EnumerationLiteral( const EnumerationTypeInfo & );
+  explicit EnumerationLiteral( const EnumerationTypeInfo & );
 
   virtual ~EnumerationLiteral();
 

@@ -27,7 +27,7 @@ class SubElementFactory;
 /** This holds information about AccessObjects.  */
 class AccessTypeInfo : public TypeInfo {
 public:
-  AccessTypeInfo( const TypeInfo &designatedType );
+  explicit AccessTypeInfo( const TypeInfo &designatedType );
   AccessTypeInfo( const AccessTypeInfo &that );
   ~AccessTypeInfo();
   TypeInfo *clone() const;

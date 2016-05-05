@@ -36,7 +36,7 @@ WARPED_DEFINE_LP_STATE_STRUCT(MyState) {
    and Warped2.  */
 class VHDLKernel : public warped::LogicalProcess {
 public:
-  VHDLKernel( const std::string &name)
+  explicit VHDLKernel( const std::string &name)
      : warped::LogicalProcess(name),
        state_() {}
   virtual ~VHDLKernel() {};

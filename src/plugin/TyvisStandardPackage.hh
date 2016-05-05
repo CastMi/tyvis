@@ -32,7 +32,7 @@
 class TyvisStandardPackage : public virtual PluginStandardPackage,
 			     public virtual TyvisPackageDeclaration {
 public:
-  TyvisStandardPackage(plugin_class_factory *factory) : PluginStandardPackage(factory) {}
+  explicit TyvisStandardPackage(plugin_class_factory *factory) : PluginStandardPackage(factory) {}
 };
   
 #endif

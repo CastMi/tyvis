@@ -39,7 +39,7 @@ public:
   //@{
 
   /** Constructor. */
-  VHDLApplication( _savant_entity_elab *initDesign );
+  explicit VHDLApplication( _savant_entity_elab *initDesign );
 
   virtual std::vector<SimulationObject*>* getSimulationObjects() {/* Inherit but not implemented */ return NULL;};
   

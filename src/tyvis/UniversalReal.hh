@@ -32,9 +32,9 @@ class UniversalInteger;
 class UniversalReal : public VHDLData {
 public:
   UniversalReal();
-  UniversalReal( double );
-  UniversalReal( int );
-  UniversalReal( const RValue & );
+  explicit UniversalReal( double );
+  explicit UniversalReal( int );
+  explicit UniversalReal( const RValue & );
   UniversalReal( const TypeInfo &,
 		 const RValue & );
 

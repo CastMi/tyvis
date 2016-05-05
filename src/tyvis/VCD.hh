@@ -26,7 +26,7 @@ class Hierarchy;
 class VCD {
 public:
 
-  VCD( const string &fileOut );
+  explicit VCD( const string &fileOut );
   ~VCD( );
   void setHierarchy(Hierarchy *hier);
   int finalize( );

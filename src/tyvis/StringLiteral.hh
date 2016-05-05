@@ -45,7 +45,7 @@ public:
       @param typeInfo The StringLiteralInfo structure associated with this object.
       @param resolveFnId Resolution function id, if any (-1 for invalid).
   */
-  StringLiteral( const ArrayTypeInfo &typeInfo );
+  explicit StringLiteral( const ArrayTypeInfo &typeInfo );
 
   /**
      This constructor is for convenience - allows us to initialize from a
@@ -60,7 +60,7 @@ public:
      needs to have Variable subelements, and a Signal needs to have Signal
      subelments.  This is the constructor that gets called in that case.     
   */
-  StringLiteral( const SubElementFactory &subElementFactory );
+  explicit StringLiteral( const SubElementFactory &subElementFactory );
 
   /** Copy constructor */
   StringLiteral( const StringLiteral &that );

@@ -29,7 +29,7 @@ enum VAType { RVALUE, LVALUE };
 
 class TyvisVarArgs {
 public:
-  TyvisVarArgs( VAType = RVALUE );
+  explicit TyvisVarArgs( VAType = RVALUE );
   virtual ~TyvisVarArgs();
   bool isLValueArgs() const;
 

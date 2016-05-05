@@ -38,9 +38,9 @@ public:
   PhysicalTypeInfo( const IntegerTypeInfo &range,
 		    const vector<UnitDeclaration> &units );
 
-  PhysicalTypeInfo( const IntegerTypeInfo &range );
+  explicit PhysicalTypeInfo( const IntegerTypeInfo &range );
 
-  PhysicalTypeInfo( const vector<UnitDeclaration> &units );
+  explicit PhysicalTypeInfo( const vector<UnitDeclaration> &units );
 
   ~PhysicalTypeInfo(){}
   

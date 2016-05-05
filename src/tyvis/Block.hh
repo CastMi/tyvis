@@ -29,7 +29,7 @@ using std::vector;
 class Block {
 public:
   Block(){expandableArray.clear();}
-  Block( const int initSize );
+  explicit Block( const int initSize );
   ~Block(){}
 
   void *getElement(const int index);

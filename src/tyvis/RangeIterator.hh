@@ -26,7 +26,7 @@ class ArrayInfo;
 
 class RangeIterator {
 public:
-  RangeIterator( const ScalarTypeInfo *initRange );
+  explicit RangeIterator( const ScalarTypeInfo *initRange );
   ~RangeIterator();
 
   /** Is there a next value?  */

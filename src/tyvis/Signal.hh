@@ -28,7 +28,7 @@ class VHDLProcess;
 
 class Signal : public SignalBase {
 public:
-  Signal( const TypeInfo & );
+  explicit Signal( const TypeInfo & );
 
   Signal( const CompositeTypeInfo &,
 	  const string &initName );

@@ -44,10 +44,10 @@ class Value : public LValue {
 public:
 
   /** Constructor.  Clones the data passed in; does not assume ownership. */
-  Value( const RValue &initData );
+  explicit Value( const RValue &initData );
 
   /** Constructor.  Assumes ownership of the data passed in. */
-  Value( RValue *initData );
+  explicit Value( RValue *initData );
 
   /** Copy constructor. */
   Value( const Value &that );

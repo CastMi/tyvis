@@ -35,7 +35,7 @@ class AccessTypeInfo;
 
 class AccessObject : public LValue {
 public:
-  AccessObject( const AccessTypeInfo &initTypeInfo );
+  explicit AccessObject( const AccessTypeInfo &initTypeInfo );
   AccessObject( const AccessTypeInfo &initTypeInfo , const RValue &);
   AccessObject( const AccessObject & );
   AccessObject( const AccessTypeInfo &initTypeInfo, TyvisVarArgs &initValue );

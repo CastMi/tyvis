@@ -35,7 +35,7 @@ public:
   /** Constructor. 
 
       @param initDesign elaboration class pointer, helps elaborate all constructs*/
-  AMSApplication( _savant_entity_elab *initDesign );
+  explicit AMSApplication( _savant_entity_elab *initDesign );
 
   /// Destructor. 
   ~AMSApplication() {}

@@ -26,7 +26,7 @@ class SubElementFactory;
 
 class FileTypeInfo : public TypeInfo {
 public:
-  FileTypeInfo( const TypeInfo &elementTypeInfo );
+  explicit FileTypeInfo( const TypeInfo &elementTypeInfo );
   FileTypeInfo( const FileTypeInfo &that );
   ~FileTypeInfo();
 

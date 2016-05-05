@@ -64,12 +64,12 @@ protected:
       @param typeInfo The SliceInfo structure associated with this object.
       @param resolveFnId Resolution function id, if any (-1 for invalid).
   */
-  Slice( const ArrayTypeInfo &typeInfo );
+  explicit Slice( const ArrayTypeInfo &typeInfo );
 
   Slice( const ArrayTypeInfo &typeInfo,
 	 const string &initValue );
 
-  Slice( const SubElementFactory &subElementFactory );
+  explicit Slice( const SubElementFactory &subElementFactory );
 
   /** A constructor for creating temporary objects.  This constructor is
       typically used by the frontend code-generator to build  temporary array

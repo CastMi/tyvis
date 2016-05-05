@@ -37,7 +37,7 @@ class AMSProcess : public AMSKernel {
 
 public:
   /** Default Constructor. */
-  AMSProcess(char *);
+  explicit AMSProcess(char *);
 
   /** Default Destructor. */
   ~AMSProcess();

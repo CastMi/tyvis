@@ -44,7 +44,7 @@ public:
   /**  Default constructor. */
   SignalBase();
 
-  SignalBase( const TypeInfo &initTypeInfo );
+  explicit SignalBase( const TypeInfo &initTypeInfo );
 
 
   /** Constructor */

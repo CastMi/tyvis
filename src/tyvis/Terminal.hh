@@ -38,7 +38,7 @@ public:
   /** Constructor. 
 
       @param name name of the terminal */
-  Terminal(char *name);
+  explicit Terminal(char *name);
   
   /** Constructor which allows assignment of a terminal Id. Helps
       for quantities like "Is".

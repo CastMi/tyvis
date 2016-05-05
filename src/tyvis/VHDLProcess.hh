@@ -40,7 +40,7 @@ public:
      
      @param name - simply passed on to parent class.
    */
-  VHDLProcess( const std::string &name ) : VHDLKernel(name) {};
+  explicit VHDLProcess( const std::string &name ) : VHDLKernel(name) {};
 
   /**
      Destructor.

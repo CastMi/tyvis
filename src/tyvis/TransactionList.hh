@@ -29,7 +29,7 @@ class VHDLVTime;
 
 class TransactionList {
 public:
-  TransactionList( SignalBase &initSignal );
+  explicit TransactionList( SignalBase &initSignal );
   virtual ~TransactionList();
 
   bool empty() const;

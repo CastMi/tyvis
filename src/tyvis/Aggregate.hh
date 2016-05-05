@@ -47,7 +47,7 @@ public:
       @param typeInfo The AggregateInfo structure associated with this object.
       @param resolveFnId Resolution function id, if any (-1 for invalid).
   */
-  Aggregate( const ArrayTypeInfo &typeInfo );
+  explicit Aggregate( const ArrayTypeInfo &typeInfo );
 
   //@{
   /**
@@ -56,7 +56,7 @@ public:
   Aggregate( const ArrayTypeInfo &typeInfo,
 	     TyvisVarArgs &initElements );
 
-  Aggregate( TyvisVarArgs &initElements );
+  explicit Aggregate( TyvisVarArgs &initElements );
 
   /**
      Constructor used by file operations.
@@ -78,7 +78,7 @@ public:
      needs to have Variable subelements, and a Signal needs to have Signal
      subelments.  This is the constructor that gets called in that case.     
   */
-  Aggregate( const SubElementFactory &subElementFactory );
+  explicit Aggregate( const SubElementFactory &subElementFactory );
 
   /** Copy constructor  */
   Aggregate( const Aggregate &that );

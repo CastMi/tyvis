@@ -34,7 +34,7 @@ class ScalarTypeInfo;
 class CompositeLiteral : public LValue {
 public:
   CompositeLiteral();
-  CompositeLiteral( const CompositeTypeInfo &initTypeInfo );
+  explicit CompositeLiteral( const CompositeTypeInfo &initTypeInfo );
 
   CompositeLiteral( const TypeInfo &initTypeInfo,
 		    const RValue &initValue );
@@ -42,10 +42,10 @@ public:
   CompositeLiteral( const CompositeTypeInfo &initTypeInfo,
 		    TyvisVarArgs &initValue );
   
-  CompositeLiteral( TyvisVarArgs &initValue );
+  explicit CompositeLiteral( TyvisVarArgs &initValue );
 
 
-  CompositeLiteral( const SubElementFactory &subElementFactory );
+  explicit CompositeLiteral( const SubElementFactory &subElementFactory );
   CompositeLiteral( const ArrayTypeInfo &typeInfo,
 		    const string &initValue );
   CompositeLiteral( const ArrayTypeInfo &typeInfo,

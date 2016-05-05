@@ -29,7 +29,7 @@
 class RecordTypeInfo : public CompositeTypeInfo {
 public:
   RecordTypeInfo();
-  RecordTypeInfo( const vector<ElementInfo *> &initElements );
+  explicit RecordTypeInfo( const vector<ElementInfo *> &initElements );
   RecordTypeInfo(const RecordTypeInfo&);
   ~RecordTypeInfo();
 

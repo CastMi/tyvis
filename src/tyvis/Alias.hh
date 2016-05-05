@@ -47,7 +47,7 @@ public:
      Constructor.  Directly references the data passed in - does not assume
      ownership and does not clone, does not destroy when finished.
   */
-  Alias( RValue &initObject );
+  explicit Alias( RValue &initObject );
   Alias( const ArrayInfo &info, RValue &initObject );
   Alias( const ArrayInfo &info, Value initObject );
   Alias( const ArrayTypeInfo &info, RValue &initObject );

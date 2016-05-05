@@ -196,7 +196,7 @@ protected:
   ObjectBase( SignalNetinfo &parent, const IntegerTypeInfo &initTypeInfo );
   ObjectBase( const ArrayTypeInfo &initTypeInfo, TyvisVarArgs &siIn );
   ObjectBase( const TypeInfo &initTypeInfo, const string &initName, const RValue &initValue );
-  ObjectBase( const SubElementFactory &subElementFactory );
+  explicit ObjectBase( const SubElementFactory &subElementFactory );
   ObjectBase( const ObjectBase &that );
   ObjectBase();
   void voidElements();

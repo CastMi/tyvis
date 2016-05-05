@@ -35,15 +35,13 @@ class IntegerLiteral : public VHDLData {
 public:
 
   IntegerLiteral();
-  IntegerLiteral(const ScalarTypeInfo &initTypeInfo);
-
-  IntegerLiteral(int i) : val( i ){}
-  IntegerLiteral(LONG i) : val( i ){}
-  IntegerLiteral(char i) : val( i ){}
-  IntegerLiteral(bool i) : val( i ){}
-  IntegerLiteral(double i) : val( (int)i ){}
-
-  IntegerLiteral(const RValue &i) : VHDLData(),
+  explicit IntegerLiteral(const ScalarTypeInfo &initTypeInfo);
+  explicit IntegerLiteral(int i) : val( i ){}
+  explicit IntegerLiteral(LONG i) : val( i ){}
+  explicit IntegerLiteral(char i) : val( i ){}
+  explicit IntegerLiteral(bool i) : val( i ){}
+  explicit IntegerLiteral(double i) : val( (int)i ){}
+  explicit IntegerLiteral(const RValue &i) : VHDLData(),
 				    val( i.getIntValue() ){}
 
   bool isScalarType() const { return true; }

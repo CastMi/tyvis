@@ -24,7 +24,7 @@
 
 class ForeignArchitecture {
 public:
-  ForeignArchitecture( _savant_entity_elab *initEntity );
+  explicit ForeignArchitecture( _savant_entity_elab *initEntity );
   virtual ~ForeignArchitecture() = 0;
 
   void executeProcess();

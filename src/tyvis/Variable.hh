@@ -37,7 +37,7 @@ public:
 
   Variable( const Variable &that );
  
-  Variable( const RValue &that );
+  explicit Variable( const RValue &that );
   
   ~Variable(); 
 

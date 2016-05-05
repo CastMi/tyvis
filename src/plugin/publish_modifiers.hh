@@ -18,7 +18,7 @@ extern new_line &NL();
 
 class prefix_modifier : public publish_modifier {
 protected:
-  prefix_modifier( string init_prefix ) :
+  explicit prefix_modifier( string init_prefix ) :
     prefix( init_prefix ){}
 
   prefix_modifier( const prefix_modifier &toCopy ) : 
@@ -36,7 +36,7 @@ private:
 
 class open_scope : public prefix_modifier {
 public:
-  open_scope( string init_prefix ) : prefix_modifier( init_prefix ){}
+  explicit open_scope( string init_prefix ) : prefix_modifier( init_prefix ){}
 
   open_scope( const open_scope &toCopy ) : prefix_modifier( toCopy.get_prefix() ){}
   
@@ -45,7 +45,7 @@ private:
 
 class close_scope : public prefix_modifier {
 public:
-  close_scope( string init_prefix ) : prefix_modifier( init_prefix ){}
+  explicit close_scope( string init_prefix ) : prefix_modifier( init_prefix ){}
 
   close_scope( const close_scope &toCopy ) : prefix_modifier( toCopy.get_prefix() ){}
   

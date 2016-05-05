@@ -30,7 +30,7 @@ class SourceData : public SourceBase {
 public:
   SourceData();
 
-  SourceData(VHDLKernel *sourceProcessPtr);
+  explicit SourceData(VHDLKernel *sourceProcessPtr);
   
   ~SourceData();
 

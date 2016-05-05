@@ -32,7 +32,7 @@ using std::cout;
 
 class AccessVariable : public ObjectBase {
 public:
-  AccessVariable( const TypeInfo &initTypeInfo );
+  explicit AccessVariable( const TypeInfo &initTypeInfo );
 
   AccessVariable( const TypeInfo &initTypeInfo,
 		  const string &initName );

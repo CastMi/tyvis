@@ -35,7 +35,7 @@ class SimulationStream;
 
 class FileObject : public ObjectBase {
 public:
-  FileObject(const FileTypeInfo &);
+  explicit FileObject(const FileTypeInfo &);
 
   FileObject(const FileObject &);
 

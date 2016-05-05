@@ -56,10 +56,10 @@ class component  {
 public:
 
   /** Standard constructor. Sets the component name.*/ 
-  component(const char* ); 
+  explicit component(const char* ); 
 
   /** Default destructor. */
-  virtual ~component(void) { }
+  virtual ~component(void) {}
 
   /** Every equation has an initialize function. Defined as a pure virtual
       function here. */ 

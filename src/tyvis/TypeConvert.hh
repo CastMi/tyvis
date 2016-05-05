@@ -39,7 +39,7 @@ class SignalNetinfo;
 // storage location.
 class TypeConvert {
 public:
-  TypeConvert(_savant_entity_elab *proc = NULL);
+  explicit TypeConvert(_savant_entity_elab *proc = NULL);
   
   ~TypeConvert();
 

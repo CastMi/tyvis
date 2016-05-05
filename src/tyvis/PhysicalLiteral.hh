@@ -51,7 +51,7 @@ public:
 		   double initValue,
 		   const string &unitName );
   
-  PhysicalLiteral( const PhysicalTypeInfo & );
+  explicit PhysicalLiteral( const PhysicalTypeInfo & );
 
   PhysicalLiteral( const PhysicalTypeInfo &,
 		   const RValue &initValue );

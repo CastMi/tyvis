@@ -32,7 +32,7 @@ TransactionList::empty() const {
 
 class deleteIfEarlier : public std::unary_function<Transaction *, bool> {
 public:
-  deleteIfEarlier( const VHDLVTime &initTime ) : currentTime( initTime ){}
+  explicit deleteIfEarlier( const VHDLVTime &initTime ) : currentTime( initTime ){}
 
   bool operator()( Transaction *t ) const {
     if( t && t->getTime() < currentTime ){
