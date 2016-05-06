@@ -38,7 +38,6 @@ libtyvisplugin_la_LDFLAGS = \
 libtyvisplugin_la_LIBADD = \
 	-laire \
 	-lsavantutils \
-	-lclutils \
 	-lltdl
 
 libtyvisplugin_la_SOURCES = \

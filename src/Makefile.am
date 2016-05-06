@@ -23,6 +23,8 @@
 #          Dale Martin  dmartin@cliftonlabs.com
 #	   Vinod Chamarty chamarv@ececs.uc.edu
 
+include $(top_srcdir)/Makefile.am.common
+
 SUBDIRS = plugin
 
 #if VHDL_AMS

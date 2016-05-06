@@ -33,7 +33,7 @@ m4_include([m4/ax_cxx_compile_stdcxx_11.m4])
 AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
 
 dnl Checks for libraries.
-m4_include([m4/acinclude.m4])
+m4_include([m4/custom_checks.m4])
 CL_LIB_WARPED
 CL_LIB_CLUTILS
 CL_LIB_CPPUNIT
