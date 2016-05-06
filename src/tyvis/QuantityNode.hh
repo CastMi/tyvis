@@ -59,8 +59,6 @@ public:
   /** Returns the contribution of this node(Quantity). */
   int getContribution();
 
-protected:
-
 private:
 
   /// Member which holds the Quantity for this node.

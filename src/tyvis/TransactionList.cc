@@ -72,7 +72,7 @@ TransactionList::copy( const TransactionList &source ){
   for( vector<Transaction *>::iterator i = 
 	 const_cast<TransactionList &>(source).getTransactions().begin();
        i < const_cast<TransactionList &>(source).getTransactions().end();
-       i++ ){
+       ++i ){
     myTransactions.push_back( new Transaction( *(*i) ) );
   }
 }
@@ -94,7 +94,7 @@ TransactionList::doMarking( const VHDLVTime &transactionTime,
   vector<Transaction *>::iterator earliestToCancel = myTransactions.end();
   for( vector<Transaction *>::iterator i = myTransactions.end() - 1;
        i >= myTransactions.begin();
-       i-- ){
+       --i ){
     if( ((*i)->getTime()) >= transactionTime ){
       mySignal.cancelTransaction( *i );
       earliestToCancel = i;
@@ -160,8 +160,8 @@ TransactionList::doMarking( const VHDLVTime &transactionTime,
       //          // is sorted -- once we hit a transaction whose time is greater
       //          // than "markTime" then all succeeding transactions will have time
       //          // greater than "markTime"
-      markIterator++;
-      transaction++;
+      ++markIterator;
+      ++transaction;
       firstTrFlag = false; // We are no longer dealing with the first transaction.
     }
 
@@ -189,8 +189,8 @@ TransactionList::doMarking( const VHDLVTime &transactionTime,
 	newTransactionList.push_back(*transaction);
       }
       
-      markIterator++;
-      transaction++;
+      ++markIterator;
+      ++transaction;
     }
 
     // Now swap the transactionlist and newTransactionList; thereby get rid of

@@ -93,7 +93,6 @@ RealTypeInfo::create( const SubElementFactory * ) const {
 
 Value
 RealTypeInfo::value( const string &initValue ) const {
-  int num = 0;
   return Value( UniversalReal( stringToDouble( initValue ) ) );
 }
 

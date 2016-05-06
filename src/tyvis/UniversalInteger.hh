@@ -28,13 +28,13 @@ class AccessObject;
 class UniversalInteger : public IntegerLiteral {
 public:
   UniversalInteger(){}
-  UniversalInteger(int i) : IntegerLiteral( i ){}
-  UniversalInteger(LONG i) : IntegerLiteral( i ){}
-  UniversalInteger(char i) : IntegerLiteral( i ){}
-  UniversalInteger(bool i) : IntegerLiteral( i ){}
-  UniversalInteger(double i) : IntegerLiteral( i ){}
+  explicit UniversalInteger(int i) : IntegerLiteral( i ){}
+  explicit UniversalInteger(LONG i) : IntegerLiteral( i ){}
+  explicit UniversalInteger(char i) : IntegerLiteral( i ){}
+  explicit UniversalInteger(bool i) : IntegerLiteral( i ){}
+  explicit UniversalInteger(double i) : IntegerLiteral( i ){}
   UniversalInteger( const TypeInfo &, const RValue &i);
-  UniversalInteger( const RValue &i );
+  explicit UniversalInteger( const RValue &i );
 
   ~UniversalInteger(){}
 

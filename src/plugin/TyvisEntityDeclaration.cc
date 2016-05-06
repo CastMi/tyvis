@@ -373,7 +373,6 @@ TyvisEntityDeclaration::_publish_cc_constructor( published_file &_cc_out, Publis
 void
 TyvisEntityDeclaration::_publish_cc_constructor_with_no_arguments( published_file &_cc_out, PublishData *declarations ) {
   int numGenericClause = get_generic_clause()->size();
-  int numPortClause    = get_port_clause()->size();
   IIR_Boolean first    = TRUE;
   
   CC_REF( _cc_out, "TyvisEntityDeclaration::_publish_cc_constructor_with_no_arguments" );

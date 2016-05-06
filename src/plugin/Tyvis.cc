@@ -844,7 +844,7 @@ void _set_current_publish_name( string new_name ){
 static std::vector<string> publish_name_list;
 string * _get_full_current_publish_name(){
   string* name = new std::string();
-  for(auto it = publish_name_list.begin(); it != publish_name_list.end(); it++) {
+  for(auto it = publish_name_list.begin(); it != publish_name_list.end(); ++it) {
      ASSERT(!(*it).empty());
      name->append(*it);
   }
@@ -905,13 +905,12 @@ Tyvis::_group_component_instantiations(TyvisArchitectureStatementList* conc_stmt
   // a single implicit block. This was done to reduce the size of the published
   // individual elaboration class. Just a neat trick to get things going -DJ
   int componentInstantiationCount               = conc_stmt_list->_get_number_of_component_instantiations();
-  int componentCounter                          = 0;
   TyvisBlockStatement *newBlock             = NULL;
-  TyvisArchitectureStatement* conc_stmt     = 
+  TyvisArchitectureStatement* conc_stmt     =
     dynamic_cast<TyvisArchitectureStatement *>(conc_stmt_list->first());
   TyvisArchitectureStatement* next_stmt     = NULL;
-  
-  while (componentInstantiationCount > blockSize) {
+
+  for (int componentCounter = 0; componentInstantiationCount > blockSize; ) {
     componentCounter = 0;
     newBlock         = new TyvisBlockStatement();
     copy_location( this, newBlock );
@@ -924,10 +923,10 @@ Tyvis::_group_component_instantiations(TyvisArchitectureStatementList* conc_stmt
 	
 	newBlock->get_block_statement_part()->append(conc_stmt);
 	conc_stmt->set_declarative_region(newBlock);
-	
-	componentCounter++;
-	componentInstantiationCount--;
-	
+
+	++componentCounter;
+	--componentInstantiationCount;
+
 	ASSERT ( conc_stmt_list->_get_number_of_component_instantiations() ==
 		 componentInstantiationCount );
       }
@@ -1160,15 +1159,15 @@ Tyvis::_copy_symbols_defined_in_enclosing_scope(PublishData *current, PublishDat
   TyvisDeclaration *decl;
 
   std::set<IIR_Declaration *> *decl_set = current->get_set(TyvisDeclaration::CONSTANT);
-  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if ((decl->_get_declarative_region() != this) && (!outer->in_collection(decl))){
       outer->add_declaration(decl);
     }
   }
-  
+
   decl_set = current->get_set(TyvisDeclaration::SIGNAL);
-  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if ((decl->_get_declarative_region() != this) && (!outer->in_collection(decl))){
       outer->add_declaration(decl);
@@ -1176,31 +1175,31 @@ Tyvis::_copy_symbols_defined_in_enclosing_scope(PublishData *current, PublishDat
   }
 
   decl_set = current->get_set(TyvisDeclaration::INTERFACE_SIGNAL);
-  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if ((decl->_get_declarative_region() != this) && (!outer->in_collection(decl))){
       outer->add_declaration(decl);
     }
   }
-  
+
   decl_set = current->get_set(TyvisDeclaration::VARIABLE);
-  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if ((decl->_get_declarative_region() != this) && (!outer->in_collection(decl))){
       outer->add_declaration(decl);
     }
   }
-  
+
   decl_set = current->get_set(TyvisDeclaration::ALIAS);
-  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if ((decl->_get_declarative_region() != this) && (!outer->in_collection(decl))){
       outer->add_declaration(decl);
     }
   }
-  
+
   decl_set = current->get_set(TyvisDeclaration::ATTRIBUTE);
-  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if ((decl->_get_declarative_region() != this) && (!outer->in_collection(decl))){
       outer->add_declaration(decl);
@@ -1208,7 +1207,7 @@ Tyvis::_copy_symbols_defined_in_enclosing_scope(PublishData *current, PublishDat
   }
 
   decl_set = current->get_set(TyvisDeclaration::S_FILE);
-  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+  for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if ((decl->_get_declarative_region() != this) && (!outer->in_collection(decl))){
       outer->add_declaration(decl);
@@ -1236,10 +1235,9 @@ Tyvis::_set_stmt_signal_index(IIR_Int32 *,  savant::set<TyvisDeclaration> *) {
 
 TyvisDeclaration *
 Tyvis::_find_in_implicit_list( const string to_find ){
-  TyvisDeclaration *current_decl;
-  
+
   if( _get_implicit_declarations() != NULL ){
-    current_decl = _get_implicit_declarations()->getElement();
+    TyvisDeclaration *current_decl = _get_implicit_declarations()->getElement();
     while( current_decl != NULL ){
       if( IIRBase_TextLiteral::cmp( current_decl->_get_declarator(), const_cast<char *>(to_find.c_str()) ) ==0){
         return current_decl;

@@ -53,7 +53,7 @@ AMSType::AMSType(ObjectBase::ObjectType objType, char * name,
       setObject( new Quantity(name,qType,reltol,abstol,NULL,NULL) );
     }
     else if (pos && neg) {
-	setObject( new Quantity(name,qType,reltol,abstol,(Terminal *)(pos->getObject()),(Terminal *)(neg->getObject())) );
+	setObject( new Quantity(name,qType,reltol,abstol,static_cast<Terminal*>(pos->getObject()),static_cast<Terminal*>(neg->getObject())) );
     }
     else {
       cerr << " Terminal associations for quantity incomplete" << endl;
@@ -65,7 +65,7 @@ AMSType::AMSType(ObjectBase::ObjectType objType, char * name,
       setObject( new Quantity(name,qType,reltol,abstol,NULL,NULL) );
     }
     else if (pos && neg) {
-	setObject( new Quantity(name,qType,reltol,abstol,(Terminal *)(pos->getObject()),(Terminal *)(neg->getObject())) );
+	setObject( new Quantity(name,qType,reltol,abstol,static_cast<Terminal*>(pos->getObject()),static_cast<Terminal*>(neg->getObject())) );
     }
     else {
 	cerr << " Terminal associations for quantity incomplete" << endl;
@@ -93,7 +93,7 @@ AMSType::AMSType(ObjectBase::ObjectType objType, char * name, double reltol, dou
       setObject( new Quantity(name,qType,reltol,abstol,NULL,NULL,val) );
     }
     else if (pos && neg) {
-	setObject( new Quantity(name,qType,reltol,abstol,(Terminal *)(pos->getObject()),(Terminal *)(neg->getObject()),val) );
+	setObject( new Quantity(name,qType,reltol,abstol,static_cast<Terminal*>(pos->getObject()),static_cast<Terminal*>(neg->getObject()),val) );
       }
     else {
 	cerr << "Terminal associations for quantity incomplete." << endl;
@@ -105,7 +105,7 @@ AMSType::AMSType(ObjectBase::ObjectType objType, char * name, double reltol, dou
       setObject( new Quantity(name,qType,reltol,abstol,NULL,NULL,val) );
     }
     else if (pos && neg) {
-	setObject( new Quantity(name,qType,reltol,abstol,(Terminal *)(pos->getObject()),(Terminal *)(neg->getObject()),val) );
+	setObject( new Quantity(name,qType,reltol,abstol,static_cast<Terminal*>(pos->getObject()),static_cast<Terminal*>(neg->getObject()),val) );
     }
     else {
 	cerr<<" Terminal associations for quantity incomplete."<<endl;

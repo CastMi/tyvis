@@ -114,7 +114,7 @@ AMSKernel::getStateLength(void){
 
 void 
 AMSKernel::incrementFreeLoadEqnCounter(){
-freeLoadEqnCounter++;
+++freeLoadEqnCounter;
 }
 
 long
@@ -151,7 +151,6 @@ void
 AMSKernel::initialSettingUp() {
   int converged = 0;
   int size = 0;
-  int firsttime;
   cout << "->ENTERED INITIAL DC SETTING UP" << endl;
   setup();
   debug << "Finished setup()" << endl;
@@ -165,14 +164,13 @@ AMSKernel::initialSettingUp() {
   // This is the order of the matrix.
   size = rhsNodes->getSize();
   getSolverState()->setRhs(new double[size+1]);
-  getSolverState()->setOldRhs(new double[size+1]);       
-  for(int i=0; i<size+1; i++) { 
+  getSolverState()->setOldRhs(new double[size+1]);
+  for(int i=0; i<size+1; ++i) {
     getSolverState()->setRhsValue(i,0.0);
     getSolverState()->setOldRhsValue(i,0.0);
   }
   dcMaxIter = 300;
   transientMaxIter = 100;
-  firsttime = 1;
   getSolverState()->setIterMode(NIUNINITIALIZED); 
   converged = findDCOp( ( getSolverState()->getMode() & MODEUIC)
 			| MODETRANOP | MODEINITJCT , dcMaxIter);
@@ -181,7 +179,7 @@ AMSKernel::initialSettingUp() {
     cerr << "Initial Find DC operating point failed" << endl;
   }
   getSolverState()->setIntegOrder(1);
-  for (int i=0; i<7; i++){
+  for (int i=0; i<7; ++i){
     getSolverState()->setOldDelta(i,maxStep);
   }
   getSolverState()->setDelta(maxStep/10);
@@ -207,7 +205,7 @@ AMSKernel::definePointersAcross(void) {
 void 
 AMSKernel::newSetBranch() {
   list<component *>::iterator eqn_iterator;   
-  for (eqn_iterator = currentEquations->begin(); eqn_iterator != currentEquations->end();eqn_iterator++) {
+  for (eqn_iterator = currentEquations->begin(); eqn_iterator != currentEquations->end(); ++eqn_iterator) {
     if (((*eqn_iterator)->getEquationType() == BRANCH_EQN)&&(!((*eqn_iterator)->getBranchSetFlag()))) {
       (*eqn_iterator)->setBranch();   
     }
@@ -218,7 +216,7 @@ int
 AMSKernel::newFindBranch(int posNode, int negNode) {
   int addNode = 0;
   list<component *>::iterator eqn_iterator; 
-  for (eqn_iterator = currentEquations->begin(); eqn_iterator != currentEquations->end();eqn_iterator++) {
+  for (eqn_iterator = currentEquations->begin(); eqn_iterator != currentEquations->end(); ++eqn_iterator) {
     addNode = (*eqn_iterator)->findBranch(posNode,negNode);
   }
   return(addNode);
@@ -240,7 +238,7 @@ AMSKernel::checkSolvability() {
   component *index = getComp();
   while (index!=NULL) {
     count+=index->getThroFreeNumber();
-    temp++;
+    ++temp;
     index = index->getNext();
   }
   if (temp<count) {
@@ -284,9 +282,9 @@ AMSKernel::completeDynamicState() {
 void
 AMSKernel :: createStates(){
   if ( getSolverState()->getStateLength() > 0){
-    for(int i=0; i<4; i++){
+    for(int i=0; i<4; ++i){
       getSolverState()->setStates(i,new double[getSolverState()->getStateLength()]);
-      for(int j=0; j<getSolverState()->getStateLength(); j++){
+      for(int j=0; j<getSolverState()->getStateLength(); ++j){
         getSolverState()->setStates(i,j,0.0);
       }
     }
@@ -323,8 +321,8 @@ int AMSKernel::iterate(int maxIter, char *matrix){
     }
     error = matrixLoad(matrix);
     spPrint(matrix,0,1,1);
-    iterno++;
-    iterationCount++;
+    ++iterno;
+    ++iterationCount;
     if (error) {
       cout << "Error in Circuit load occured" << endl;
       return(error);
@@ -448,7 +446,7 @@ AMSKernel::matrixLoad(char *matrix) {
   // We set loaded flag of all quantities in the Island to false set it to
   // true after all equations are loaded. 
   list<Quantity *>::iterator currentQuantity;
-  for (currentQuantity = islandQuantities->begin(); currentQuantity != islandQuantities->end();currentQuantity++) {
+  for (currentQuantity = islandQuantities->begin(); currentQuantity != islandQuantities->end(); ++currentQuantity) {
     (*currentQuantity)->setLoadedFlag(0);
   }
   error = newLoad(matrix);
@@ -465,7 +463,7 @@ int
 AMSKernel::newPointerAllocation() {
   int error;
   list<component *>::iterator eqn_iterator;
-  for (eqn_iterator = currentEquations->begin(); eqn_iterator != currentEquations->end();eqn_iterator++) {
+  for (eqn_iterator = currentEquations->begin(); eqn_iterator != currentEquations->end(); ++eqn_iterator) {
     if ((*eqn_iterator)->getConsCheck() == false) {
       error=(*eqn_iterator)->pointerAllocation();
       if(error) {
@@ -480,7 +478,7 @@ int
 AMSKernel::newCheckCurrent(int posNode, int negNode, int indexVal) {
   int val=0;
   list<component *>::iterator eqn_iterator;
-  for (eqn_iterator = currentEquations->begin(); eqn_iterator  != currentEquations->end();eqn_iterator++) {
+  for (eqn_iterator = currentEquations->begin(); eqn_iterator  != currentEquations->end(); ++eqn_iterator) {
     val= (*eqn_iterator)->checkCurrent(posNode, negNode, indexVal);
     if(val==-1){
       return(0);
@@ -497,12 +495,12 @@ AMSKernel::newLoad(char *matrix) {
   int size = rhsNodes->getSize();
   int error;
   spREAL *tempDC,*tempTrans;    
-  for (int i=0; i<=size; i++) {
+  for (int i=0; i<=size; ++i) {
     getSolverState()->setRhsValue(i,0);
   }
   freeLoadEqnCounter=1;
   spClear( (char*)matrix);
-  for (eqn_iterator = currentEquations->begin(); eqn_iterator != currentEquations->end();eqn_iterator++) {
+  for (eqn_iterator = currentEquations->begin(); eqn_iterator != currentEquations->end(); ++eqn_iterator) {
     if ((*eqn_iterator)->getConsCheck()==false) {
       error=(*eqn_iterator)->load();
       if (error) {
@@ -514,7 +512,7 @@ AMSKernel::newLoad(char *matrix) {
   list<contributionNode *>::iterator contributionIterator;
   for (contributionIterator = globalContributionList.begin();
        contributionIterator != globalContributionList.end();
-       contributionIterator++) {
+       ++contributionIterator) {
     if (getAnalysis() == 0) {
       quantityNode *tempnode1 = (*contributionIterator)->getNode(); 
       if (tempnode1 == NULL) {  
@@ -522,10 +520,10 @@ AMSKernel::newLoad(char *matrix) {
       }
       else {
         while (tempnode1 !=NULL) {
-          if (((Quantity*)(tempnode1->getQuantity())->getObject())->getUsed() == 1) {
+          if ((static_cast<Quantity*>(tempnode1->getQuantity())->getObject())->getUsed() == 1) {
             tempDC=spGetElement(dcmatrix,
                                 addNodeCond(((*contributionIterator)->getTerminal()).getTerminalId(),EFFORT) ,
-                                addNodeCond(((Quantity*)(tempnode1->getQuantity())->getObject())->getIndex(),FLOW));
+                                addNodeCond((static_cast<Quantity*>(tempnode1->getQuantity())->getObject())->getIndex(),FLOW));
             *tempDC += tempnode1->getContribution();
           }
           tempnode1 = tempnode1->getNext();
@@ -539,10 +537,10 @@ AMSKernel::newLoad(char *matrix) {
     }  
     else {  
       while (tempnode1 !=NULL) {     
-        if ( ((Quantity*)(tempnode1->getQuantity())->getObject())->getUsed() == 1) {
+        if ( (static_cast<Quantity*>(tempnode1->getQuantity())->getObject())->getUsed() == 1) {
           tempTrans=spGetElement(transientmatrix,
                                 addNodeCond(((*contributionIterator)->getTerminal()).getTerminalId(),EFFORT) ,
-                                addNodeCond(((Quantity*)(tempnode1->getQuantity())->getObject())->getIndex(),FLOW));
+                                addNodeCond((static_cast<Quantity*>(tempnode1->getQuantity())->getObject())->getIndex(),FLOW));
           *tempTrans += tempnode1->getContribution();
         }
         tempnode1 = tempnode1->getNext();
@@ -610,7 +608,7 @@ nextTime:
     }
     else {
       //Convergence has been achieved.
-      convergedCount++;
+      ++convergedCount;
       if (firsttime){
         firsttime = 0;
       }
@@ -659,7 +657,7 @@ void
 AMSKernel::updateQuantityValues(){
   list<component *> *currentEquations = getCurrentEquations();
   list<component *>::iterator eqn_iterator;
-  for(eqn_iterator = currentEquations->begin(); eqn_iterator != currentEquations->end();eqn_iterator++){
+  for(eqn_iterator = currentEquations->begin(); eqn_iterator != currentEquations->end(); ++eqn_iterator){
     (*eqn_iterator)->updateQuantityValues();
   }
 }
@@ -739,18 +737,18 @@ AMSKernel::truncError(int qcap, double* timeStep) {
     diff[i] = *(getSolverState()->getStates(i)) + qcap;
   }
 
-  for(i=0 ; i <= getSolverState()->getIntegOrder() ; i++){
+  for(i=0 ; i <= getSolverState()->getIntegOrder() ; ++i){
     deltmp[i] = getSolverState()->getOldDelta(i);
   }
   j = getSolverState()->getIntegOrder();
   while(1){
-    for(i=0; i <= j; i++){
+    for(i=0; i <= j; ++i){
       diff[i] = (diff[i] - diff[i+1])/deltmp[i];
     }
     if(--j < 0){ 
       break;
     }
-    for(i=0; i <= j; i++){
+    for(i=0; i <= j; ++i){
       deltmp[i] = deltmp[i+1] + getSolverState()->getOldDelta(i);
     }
   }
@@ -778,7 +776,7 @@ AMSKernel::convergenceTest(){
   double oldValue,newValue,tol,relTolerance,absTolerance;
   list <Quantity *>*islandQuantities = getSetOfQuantities();
   list<Quantity *>::iterator currQuantity;
-  for(currQuantity = islandQuantities->begin(); currQuantity != islandQuantities->end();currQuantity++){
+  for(currQuantity = islandQuantities->begin(); currQuantity != islandQuantities->end(); ++currQuantity) {
     relTolerance = 1e-03;
     if ((*currQuantity)->get_quantity_type() == ACROSS || (*currQuantity)->get_quantity_type() == FREE){
        absTolerance = voltTol;

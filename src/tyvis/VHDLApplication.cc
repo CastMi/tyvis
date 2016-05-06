@@ -54,7 +54,7 @@ VHDLApplication::initialize( vector<string> & args){
       vector<string>::iterator args_i, args_end;
       args_i = args.begin();
       args_end = args.end();
-      args_i++;
+      ++args_i;
       for ( ; args_i != args_end ; ++args_i ) {
         if ( *args_i == "-vcd" ) {
           if ( ++args_i == args_end ) {

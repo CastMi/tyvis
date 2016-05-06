@@ -159,7 +159,7 @@ SignalNetinfo::addChild( SignalNetinfo &sig, VHDLKernel *ptr ){
         // Check if the first guy is an anonymous driver. If so pitch him
         // after copying the default initial value.
         ASSERT ( dynamic_cast<SourceInfo *>(sig.getSource()) );
-        SourceInfo *tempSourceInfo = (SourceInfo *) sig.getSource();
+        SourceInfo *tempSourceInfo = static_cast<SourceInfo*>(sig.getSource());
         if (tempSourceInfo->getChild(0)->isAnonymousDriver() == true) {
           ASSERT( dynamic_cast<SourceData *>(tempSourceInfo->getChild(0)) );
           ObjectBase *tempData =

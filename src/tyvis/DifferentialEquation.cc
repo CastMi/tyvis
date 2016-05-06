@@ -155,9 +155,7 @@ differentialEquation::load(Quantity *qty, int index) {
 
 void
 differentialEquation::init()  {
-  int branch;
-  branch = ckt->addNodeCond(branchQty[0]->getIndex(), FLOW,branchQty[0]->getName());
-  if  (branchQty[1]->getType() == ACROSS) {
+  if(branchQty[1]->getType() == ACROSS) {
     
 ckt->addNodeCond(branchQty[1]->getPosNode(),EFFORT,branchQty[1]->getPosTerminal()->getTerminalName());
     

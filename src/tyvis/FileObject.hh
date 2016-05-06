@@ -130,8 +130,8 @@ savantfile_open( VHDLKernel *processPtr,
 int
 savantfile_open( VHDLKernel *processPtr,
 		 FileObject &fileObject,
-		 const StringLiteral fileName,
-		 const EnumerationLiteral openMode );
+		 const StringLiteral& fileName,
+		 const EnumerationLiteral& openMode );
 
 /** Implicit "file_open" operator. */
 int

@@ -53,9 +53,8 @@ TyvisConfigurationSpecification::_publish_cc_port_map_aspect( published_file &_c
 							      PublishData *declarations ) {
   ASSERT( _get_current_publish_node() != NULL );
   ASSERT( dynamic_cast<TyvisConcurrentStatement *>(_get_current_publish_node()) );
-  TyvisConcurrentStatement* concurrent_stmt = 
+  TyvisConcurrentStatement* concurrent_stmt =
     dynamic_cast<TyvisConcurrentStatement*>( _get_current_publish_node());
-  TyvisAssociationElement* actual_clause = NULL;
 
   CC_REF( _cc_out, "TyvisConfigurationSpecification::_publish_cc_port_map_aspect" );
   if(get_port_map_aspect()->size() > 0) {
@@ -94,7 +93,7 @@ TyvisConfigurationSpecification::_publish_cc_port_map_aspect( published_file &_c
     _cc_out.insert_comment( "Add a port association - order is actual, formal" );
     _cc_out << "PortMap *tmpPortMap = architecture->getPortMapAspect();" << NL();
     _get_port_map_aspect()->_publish_cc_port_map_associations( _cc_out, declarations );
-    actual_clause = dynamic_cast<TyvisAssociationElement *>(get_port_map_aspect()->first());
+    TyvisAssociationElement* actual_clause = dynamic_cast<TyvisAssociationElement *>(get_port_map_aspect()->first());
     while( actual_clause && actual_clause->_get_actual() ){
       _cc_out << "component->";
       actual_clause->_get_actual()->_publish_cc_object_name( _cc_out, declarations );

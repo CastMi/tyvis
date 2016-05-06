@@ -222,7 +222,6 @@ TyvisAliasDeclaration::_add_declarations_in_initializations( PublishData *declar
 void
 TyvisAliasDeclaration::_add_necessary_decls_into_declaration_collection( PublishData *declarations ) {
   TyvisAliasDeclaration     *tempAliasDecl  = NULL;
-  TyvisDeclaration          *tempDecl       = NULL;
 
   ASSERT ( declarations != NULL );
 
@@ -232,7 +231,7 @@ TyvisAliasDeclaration::_add_necessary_decls_into_declaration_collection( Publish
     tempAliasDecl->_add_necessary_decls_into_declaration_collection(declarations);
   }
   else {
-    tempDecl = dynamic_cast<TyvisDeclaration *> (_get_name());
+    TyvisDeclaration *tempDecl = dynamic_cast<TyvisDeclaration *> (_get_name());
     if (tempDecl != NULL) {
       if (!declarations->in_collection(tempDecl)) {
 	declarations->add_declaration(tempDecl);

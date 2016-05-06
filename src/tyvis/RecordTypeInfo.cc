@@ -30,7 +30,7 @@ RecordTypeInfo::RecordTypeInfo() :
 RecordTypeInfo::~RecordTypeInfo(){
   for( vector<ElementInfo *>::const_iterator i = myElementInfos.begin();
        i < myElementInfos.end();
-       i++ ){
+       ++i ){
     delete *i;
   }
   myElementInfos.clear();
@@ -63,10 +63,10 @@ RecordTypeInfo::operator==( const TypeInfo &that ) const {
   if( dynamic_cast<const RecordTypeInfo *>( &that ) ){
     const RecordTypeInfo *thatRecordType = dynamic_cast<const RecordTypeInfo *>( &that );
     if( myElementInfos.size() && thatRecordType->myElementInfos.size() ){
-      bool retval = true;
+      retval = true;
       for( unsigned int i = 0;
 	   i < myElementInfos.size();
-	   i++ ){
+	   ++i ){
 	// I know this is ugly...
 	if( myElementInfos[i] == thatRecordType->myElementInfos[i] ){}
 	else{
@@ -124,7 +124,7 @@ void
 RecordTypeInfo::cloneElementInfos( const vector<ElementInfo *> &those ){
   for( vector<ElementInfo *>::const_iterator i = those.begin();
        i < those.end();
-       i++ ){
+       ++i ){
     addField( *(*i) );
   }
 }
@@ -149,10 +149,10 @@ RecordTypeInfo::constructFields( vector<RValue *> &fieldVector,
   int counter = 0;
   for( vector<ElementInfo *>::const_iterator i = myElementInfos.begin();
        i < myElementInfos.end();
-       i++ ){
+       ++i ){
     if( subElementFactory != 0 ){
       fieldVector.push_back( subElementFactory->operator()(counter) );
-      counter++;
+      ++counter;
     }
     else{
       fieldVector.push_back( (*i)->create(0) );

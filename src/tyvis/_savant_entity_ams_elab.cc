@@ -97,7 +97,7 @@ _savant_entity_ams_elab::assignIndex() {
   
   for (thruIterator = globalThroughQuantityList.begin();
        thruIterator != globalThroughQuantityList.end();
-       thruIterator++) {
+       ++thruIterator) {
     ASSERT( (*thruIterator)->getObject()->getKind() == ObjectBase::QUANTITY);
     ((Quantity*)(*thruIterator)->getObject())->setIndex(globalAMSId++);
     
@@ -105,7 +105,7 @@ _savant_entity_ams_elab::assignIndex() {
     // quantities associated with each terminal(contribution node). 
     for(contribIterator = globalContributionList.begin();
 	contribIterator != globalContributionList.end();
-	contribIterator++) {
+	++contribIterator) {
       if(((((Quantity *)(*thruIterator)->getObject())->getPosNode()) == ((*contribIterator)->getTerminal()).getTerminalId()) ||
 	 ((((Quantity *)(*thruIterator)->getObject())->getNegNode()) == ((*contribIterator)->getTerminal()).getTerminalId())) {
 	(*contribIterator)->insertQty((*thruIterator));
@@ -116,20 +116,20 @@ _savant_entity_ams_elab::assignIndex() {
   // Setting Contribution for through Quantities.
   for (contribIterator = globalContributionList.begin();
        contribIterator != globalContributionList.end();
-       contribIterator++) {
+       ++contribIterator) {
     (*contribIterator)->setContribution();
   }
   
   for (contribIterator = globalContributionList.begin();
        contribIterator != globalContributionList.end();
-       contribIterator++) {
+       ++contribIterator) {
     debug<<"traversing the list of terminals"<<endl;
     (*contribIterator)->traverse();
   }
 
   // Making sure globalId is not 0 before assigning Id for free quantities.
   if (globalAMSId == 0) {
-   globalAMSId++;
+   ++globalAMSId;
   }
   
   freeEquationId = globalAMSId;
@@ -140,7 +140,7 @@ _savant_entity_ams_elab::assignIndex() {
   list<VHDLType *>::iterator freeIterator;
   for (freeIterator = globalFreeQuantityList.begin();
        freeIterator!=globalFreeQuantityList.end();
-       freeIterator++) {
+       ++freeIterator) {
     ((Quantity*)(*freeIterator)->getObject())->setIndex(globalAMSId++);
   }
   
@@ -148,7 +148,7 @@ _savant_entity_ams_elab::assignIndex() {
   list<VHDLType *>::iterator implicitIterator;
   for (implicitIterator = globalImplicitQuantityList.begin();
        implicitIterator!=globalImplicitQuantityList.end();
-       implicitIterator++) {
+       ++implicitIterator) {
     ((Quantity*)(*implicitIterator)->getObject())->setIndex(globalAMSId++);
   }
 }
@@ -189,7 +189,7 @@ _savant_entity_ams_elab::createAMSProcess() {
     }
 
     list<component *>::iterator eqn_iterator;
-    for (eqn_iterator = tempList->begin(); eqn_iterator != tempList->end();eqn_iterator++) {
+    for (eqn_iterator = tempList->begin(); eqn_iterator != tempList->end(); ++eqn_iterator) {
       contProcess->add((*eqn_iterator));
     }
     delete tempList;

@@ -93,44 +93,40 @@ TyvisConcurrentBreakStatement::_publish_createNetInfo(char *,
 
 Tyvis *
 TyvisConcurrentBreakStatement::_transmute() {
-  
   TyvisProcessStatement* pstmt = new TyvisProcessStatement;
   TyvisWaitStatement* wstmt = new TyvisWaitStatement;
-  
+
   copy_location( this, wstmt ); 
   copy_location( this, pstmt );
-  
-  TyvisBreakElement *break_element = NULL;
+
   TyvisBreakStatement *break_stmt = new TyvisBreakStatement();
-  
+
   TyvisDesignator *designator = NULL;
-   savant::set<Tyvis> signallist;
-  TyvisDeclaration *signals = NULL;
-  
+
   pstmt->set_design_file( get_design_file( ) );
   pstmt->set_line_number(get_line_number());
-  
+ 
   pstmt->set_label(_get_label());
   pstmt->set_postponed(FALSE);
-  
+
   break_stmt->set_condition(_get_condition());
-  for ( break_element = dynamic_cast<TyvisBreakElement *>(get_concurrent_break_list()->first());
+  for( TyvisBreakElement *break_element = dynamic_cast<TyvisBreakElement *>(get_concurrent_break_list()->first());
 	break_element != NULL;
 	break_element = dynamic_cast<TyvisBreakElement *>(get_concurrent_break_list()->successor(break_element)) ) {
     break_stmt->get_break_list()->append(break_element);
   }
-  
-  for ( designator = dynamic_cast<TyvisDesignator *>(get_sensitivity_list()->first());
+
+  for( designator = dynamic_cast<TyvisDesignator *>(get_sensitivity_list()->first());
 	designator != NULL;
 	designator = dynamic_cast<TyvisDesignator *>(get_sensitivity_list()->successor(designator)) ) {
     wstmt->get_sensitivity_list()->append(designator);
   }
   if(_get_condition() != NULL) {
+    savant::set<Tyvis> signallist;
     _get_condition()->_get_list_of_input_signals(&signallist);
-    for(signals = dynamic_cast<TyvisDeclaration *>(signallist.getElement());
+    for(TyvisDeclaration *signals = dynamic_cast<TyvisDeclaration *>(signallist.getElement());
 	signals != NULL;
 	signals = dynamic_cast<TyvisDeclaration *>(signallist.getNextElement())) {
-      designator = new TyvisDesignatorExplicit;
       designator = new TyvisDesignatorExplicit;
       dynamic_cast<TyvisDesignatorExplicit*>(designator)->set_name(signals);
       wstmt->get_sensitivity_list()->append(designator);

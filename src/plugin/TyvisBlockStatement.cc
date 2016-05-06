@@ -537,8 +537,6 @@ void
 TyvisBlockStatement::_publish_cc_createNetInfo( published_file &_cc_out, PublishData *declarations )
 {
   TyvisArchitectureStatement *arch_stmt = NULL;
-  IIR_Boolean found = false;
-  int wanted_instantiation = 1;
   const string tmp  = _get_current_elab_name();
   const string tmp2 = _get_current_publish_name();
   Tyvis* tmpNode   = _get_current_publish_node();
@@ -579,8 +577,6 @@ TyvisBlockStatement::_publish_cc_createNetInfo( published_file &_cc_out, Publish
 	   << "_publish_cc_createNetInfo( _cc_out, declarations ): unknown conc_statement "
 	   << "type |" << arch_stmt->get_kind_text() << "| in arch" << endl;
     }
-    found = FALSE;
-    wanted_instantiation = 1;
     arch_stmt = dynamic_cast<TyvisArchitectureStatement *>(get_block_statement_part()->successor(arch_stmt));
   }
   _cc_out << "}\n\n";
@@ -966,7 +962,7 @@ TyvisBlockStatement::_publish_cc_elaborate_addChild( published_file &_cc_out,
 				  _get_declarative_region());
     }
     else if(actual_clause->_get_actual()->is_name() == TRUE) {
-      tempDeclaration = (TyvisDeclaration *) actual_clause->_get_actual()->_get_prefix_declaration();
+      tempDeclaration = static_cast<TyvisDeclaration*>(actual_clause->_get_actual()->_get_prefix_declaration());
       ASSERT ( tempDeclaration != NULL );
       _publish_cc_scoping_prefix( _cc_out.get_stream(), 
 				  tempDeclaration->_get_declarative_region(),

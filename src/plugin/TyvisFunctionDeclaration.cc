@@ -176,7 +176,6 @@ TyvisFunctionDeclaration::_publish_cc_wait_data( published_file &_cc_out, Publis
 string
 TyvisFunctionDeclaration::_mangle_declarator() {
   ostringstream newMangledDeclarator;
-  TyvisInterfaceDeclaration *interface_element;
 
   IIR_Boolean _is_operator = is_operator();
 
@@ -205,7 +204,7 @@ TyvisFunctionDeclaration::_mangle_declarator() {
   //Mangling with the argument types
   if( _is_operator == FALSE ){
     if(get_interface_declarations()->size() >= 1) {
-      interface_element = dynamic_cast<TyvisInterfaceDeclaration *>(get_interface_declarations()->first());
+      TyvisInterfaceDeclaration *interface_element = dynamic_cast<TyvisInterfaceDeclaration *>(get_interface_declarations()->first());
       while( interface_element != NULL ){
 	ASSERT( interface_element->_get_subtype() != NULL );
 	if( interface_element->_get_subtype()->_get_declaration() == NULL ){

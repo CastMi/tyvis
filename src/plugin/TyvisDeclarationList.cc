@@ -307,10 +307,10 @@ TyvisDeclarationList::_publish_cc_file_objects( published_file &_cc_out,
   CC_REF( _cc_out, "TyvisDeclarationList::_publish_cc_file_objects" );
   std::set<IIR_Declaration*> *decl_set = declarations->get_set(TyvisDeclaration::S_FILE);
   std::set<IIR_Declaration*>::iterator iter = decl_set->begin();
-  while( iter != decl_set->end() ){        
+  while( iter != decl_set->end() ){
     TyvisFileDeclaration *decl = dynamic_cast<TyvisFileDeclaration *>(*iter);
     decl->_publish_cc_shared_file_decl( _cc_out, declarations, "" );
-    iter++;
+    ++iter;
   }
 }
 

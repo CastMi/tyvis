@@ -73,7 +73,7 @@ AMSProcess::setup() {
   while( index != NULL) {  
     ASSERT(index!=NULL);
     index->init();
-    numberOfEquations++;
+    ++numberOfEquations;
     // Build the set of all the quantities in this island.
     index->buildQuantitySet(islandQuantities);
     index = index->getNext();
@@ -82,7 +82,7 @@ AMSProcess::setup() {
   list<VHDLType *>::iterator acrossIterator;
   for(acrossIterator = globalAcrossQuantityList.begin();
       acrossIterator != globalAcrossQuantityList.end();
-      acrossIterator++) {
+      ++acrossIterator) {
     ASSERT( (*acrossIterator)->getObject()->getKind() == ObjectBase::QUANTITY);
     if ((((Quantity *)(*acrossIterator)->getObject())->getPosTerminal()->getUsed()==1)&&
 	(((Quantity *)(*acrossIterator)->getObject())->getNegTerminal()->getUsed()==1)) {
@@ -95,7 +95,7 @@ AMSProcess::setup() {
   ostringstream str;
   str << "Time  ";
   list<Quantity *>::iterator currentQuantity;
-  for (currentQuantity = islandQuantities->begin(); currentQuantity != islandQuantities->end();currentQuantity++) {
+  for (currentQuantity = islandQuantities->begin(); currentQuantity != islandQuantities->end(); ++currentQuantity) {
     if ((*currentQuantity)->getType()!=IMPLICIT) {
       int length = strlen((*currentQuantity)->getName());
       char *outputQuantityName = new char [length];
@@ -119,11 +119,11 @@ AMSProcess::printFunction() {
   ostringstream str;
   str << getSolverState()->getCurTime()*1e-15;
   list<Quantity *>::iterator currentQuantity;
-  for (currentQuantity = islandQuantities->begin(); currentQuantity != islandQuantities->end();currentQuantity++) {
+  for (currentQuantity = islandQuantities->begin(); currentQuantity != islandQuantities->end(); ++currentQuantity) {
     if ((*currentQuantity)->getType()!=IMPLICIT) {
       str << "  ";
       str.setf(ios::scientific, ios::floatfield);
-      str << (*currentQuantity)->getValue(((AMSKernel*)this));
+      str << (*currentQuantity)->getValue((static_cast<AMSKernel*>(this)));
     }
   }  
   string strValue = str.str();

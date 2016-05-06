@@ -61,10 +61,6 @@ TyvisConcurrentSelectedSignalAssignment::_transmute() {
   copy_location( this, pstmt );
   copy_location( this, wstmt );
 
-  TyvisSignalAssignmentStatement* sastmt                  = NULL;
-  TyvisCaseStatement* casestmt                            = NULL;
-  Tyvis* cndtion;
-
   pstmt->set_label(get_label());
   pstmt->set_postponed(get_postponed());
 
@@ -75,19 +71,18 @@ TyvisConcurrentSelectedSignalAssignment::_transmute() {
   }
 
   // If it is a guarded sign assignemnt then the transform is done as per
-  // LRM chapter 9.5  
+  // LRM chapter 9.5
   if (get_guarded() == TRUE) {
     ASSERT(_get_guard_signal() != NULL);
-    cndtion = _get_guard_signal();
     guardIfStmt = new TyvisIfStatement();
     copy_location( this, guardIfStmt );
-    guardIfStmt->set_condition(cndtion);
-      
-    // else clause 
+    guardIfStmt->set_condition( _get_guard_signal() );
+
+    // else clause
     // The disconnection specification applies only if the target is a
     // guarded target - section 9.5 of LRM
     if (_get_target()->get_signal_kind() == IIR_BUS_KIND || _get_target()->get_signal_kind() == IIR_REGISTER_KIND) {
-      sastmt = new TyvisSignalAssignmentStatement;
+      TyvisSignalAssignmentStatement* sastmt = new TyvisSignalAssignmentStatement;
       copy_location( this, sastmt );
       sastmt->set_target(get_target());
       sastmt->set_delay_mechanism(get_delay_mechanism());
@@ -107,11 +102,11 @@ TyvisConcurrentSelectedSignalAssignment::_transmute() {
     ASSERT (guardIfStmt != NULL);
     pstmt->get_process_statement_part()->append(guardIfStmt);
   }
-  
-  casestmt = new TyvisCaseStatement();
+ 
+  TyvisCaseStatement *casestmt = new TyvisCaseStatement();
   copy_location( this, casestmt );
   casestmt->set_expression(get_expression());
-  TyvisCaseStatementAlternativeList *new_list = 
+  TyvisCaseStatementAlternativeList *new_list =
     dynamic_cast<TyvisCaseStatementAlternativeList *>(build_alternative_list(true));
   casestmt->set_case_statement_alternatives(new_list);
 

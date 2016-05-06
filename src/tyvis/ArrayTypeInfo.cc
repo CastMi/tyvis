@@ -199,10 +199,8 @@ ArrayTypeInfo::constructFields( vector<RValue *> &elements,
 
 int
 ArrayTypeInfo::storageIndex( int elementIndex ) const {
-  int retval = -1;
-
   ASSERT( myIndexTypeInfo != 0 );
-  retval = myIndexTypeInfo->storageIndex( elementIndex );
+  int retval = myIndexTypeInfo->storageIndex( elementIndex );
   ASSERT( retval >= 0 );
 
   return retval;

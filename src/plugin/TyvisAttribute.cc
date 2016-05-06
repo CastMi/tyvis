@@ -451,10 +451,9 @@ TyvisAttribute::_publish_cc_necessary_signal_init( published_file &_cc_out,
                                                    PublishData *declarations,
                                                    IIR_Boolean implicitSignal) {
   TyvisDeclaration *decl = _get_actual_signal_declaration();
-  int idx = 0;
 
   CC_REF( _cc_out, "TyvisAttribute::_publish_cc_necessary_signal_init" );
-  
+
   if(decl->_is_published_attribute_in_initstate(attrib) == FALSE) {
     abort();
     _cc_out << *decl->_get_mangled_declarator()
@@ -475,6 +474,7 @@ TyvisAttribute::_publish_cc_necessary_signal_init( published_file &_cc_out,
     }
     else {
       TyvisTypeDefinition *type = decl->_get_subtype();
+      int idx = 0;
       do {
 	abort();
 	idx++;
@@ -957,9 +957,9 @@ TyvisAttribute::_check_and_add_necessary_decls(PublishData *declarations) {
     TyvisIndexedName *idxName = dynamic_cast<TyvisIndexedName *>( _get_prefix());
     ASSERT ( idxName->get_kind() == IIR_INDEXED_NAME );
     ASSERT ( idxName->_get_prefix_declaration() != NULL );
-      
-    declToCheck = idxName->_get_prefix_declaration()->_get_implicit_declaration_for_attribute( (TyvisAttribute *) this );
-  } 
+
+    declToCheck = idxName->_get_prefix_declaration()->_get_implicit_declaration_for_attribute( static_cast<TyvisAttribute *>(this) );
+  }
 
   if ((declToCheck != NULL) && (!declarations->in_collection(declToCheck))) {
     declarations->add_declaration(declToCheck);

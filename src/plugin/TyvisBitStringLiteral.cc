@@ -93,14 +93,11 @@ TyvisBitStringLiteral::_publish_cc_condition( published_file &_cc_out, PublishDa
 
 void
 TyvisBitStringLiteral::_publish_cc_range( published_file &_cc_out, PublishData *declarations ) {
-  TyvisScalarTypeDefinition *index_type = NULL;
-  TyvisArrayTypeDefinition *array_type = NULL;
-
   CC_REF( _cc_out, "TyvisBitStringLiteral::_publish_cc_range" );
 
   if ( _get_subtype()->is_array_type() == TRUE && _get_subtype()->_is_single_dimensional_array_type() == TRUE ){
-    array_type = dynamic_cast<TyvisArrayTypeDefinition *>(_get_subtype());
-    index_type = array_type->_get_index_subtype();
+    TyvisArrayTypeDefinition *array_type = dynamic_cast<TyvisArrayTypeDefinition *>(_get_subtype());
+    TyvisScalarTypeDefinition *index_type = array_type->_get_index_subtype();
     if ( index_type != NULL && index_type->get_left() != NULL && index_type->get_right() != NULL ){
       index_type->_get_base_type_left()->_publish_cc_value( _cc_out, declarations );
       if ( index_type->is_ascending_range() == TRUE){
@@ -121,7 +118,6 @@ TyvisBitStringLiteral::_publish_cc_range( published_file &_cc_out, PublishData *
 
 void
 TyvisBitStringLiteral::_publish_cc_bounds( published_file &_cc_out, PublishData *declarations ) {
-  TyvisScalarTypeDefinition *index_type = NULL;
   TyvisArrayTypeDefinition  *array_type = NULL;
 
   CC_REF( _cc_out, "TyvisBitStringLiteral::_publish_cc_bounds" );
@@ -129,7 +125,7 @@ TyvisBitStringLiteral::_publish_cc_bounds( published_file &_cc_out, PublishData 
   if ( _get_subtype()->is_array_type() == TRUE && 
        _get_subtype()->_is_single_dimensional_array_type() == TRUE ){
     array_type = dynamic_cast<TyvisArrayTypeDefinition *>(_get_subtype());
-    index_type = array_type->_get_index_subtype();
+    TyvisScalarTypeDefinition *index_type = array_type->_get_index_subtype();
     if (index_type != NULL ){
       index_type->_publish_cc_array_info( _cc_out, declarations );
     } else {

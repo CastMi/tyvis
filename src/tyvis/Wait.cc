@@ -45,7 +45,7 @@ Wait::operator=(const Wait &rhs) {
 bool
 Wait::sensitiveTo(int sigid) {
   bool retval = false;
-  for(unsigned int i = 0; i < getSensSize(); i++ ){
+  for(unsigned int i = 0; i < getSensSize(); ++i ){
     if( isSensitive(sigid,sensList[i]) ){
       retval = true;
       break;
@@ -63,7 +63,7 @@ void
 Wait::destructSensitivityList(){
   for( vector<SignalBase*>::iterator i = sensList.begin();
        i < sensList.begin();
-       i++ ){
+       ++i ){
     delete (*i);
   }
   sensList.clear();
@@ -78,7 +78,7 @@ void
 Wait::print(ostream& os) const {
   if (getSensSize() > 0) {
     os << " signals: ";
-    for( unsigned int i = 0; i < getSensSize(); i++ ){
+    for( unsigned int i = 0; i < getSensSize(); ++i ){
       os << sensList[i] << endl;
       sensList[i]->print(os);
     }

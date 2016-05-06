@@ -1,4 +1,3 @@
-
 // Copyright (c) 1996-2003 The University of Cincinnati.
 // All rights reserved.
 
@@ -108,6 +107,7 @@ void
 TyvisConcurrentConditionalSignalAssignment::_publish_cc( published_file &, PublishData * ) {
   // Include the declarative region to which this process belongs
   // FIXME: Only simple assignments are covered for the time being.
+  assert(_get_conditional_waveforms());
   assert(_get_conditional_waveforms()->num_elements() == 1);
   assert(_get_conditional_waveforms()->first()->get_waveform()->num_elements() == 1);
   cerr << "Publishing concurrent assignment.\n";

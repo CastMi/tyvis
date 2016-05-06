@@ -35,14 +35,14 @@ PublishData::PublishData() {
   collection.reserve(IIR_Declaration::LAST_DECLARATION_TYPE);
 
   // Add the sets
-  for (unsigned i = 0; i < IIR_Declaration::LAST_DECLARATION_TYPE; i++){
+  for (unsigned i = 0; i < IIR_Declaration::LAST_DECLARATION_TYPE; ++i){
     collection.push_back( new std::set<IIR_Declaration *> );
   }
 }
 
 PublishData::~PublishData() {
   // Erase the sets we allocated
-  for (vector<set<IIR_Declaration *> *>::iterator i = collection.begin(); i != collection.end(); i++) {
+  for (vector<set<IIR_Declaration *> *>::iterator i = collection.begin(); i != collection.end(); ++i) {
     delete *i;
   }
 }
@@ -73,9 +73,9 @@ set<IIR_Declaration*> *
 PublishData::find_set( IIR_TextLiteral *name ) {
   set<IIR_Declaration*> *result = new set<IIR_Declaration*>;
 
-  for (vector<set<IIR_Declaration *> *>::iterator cur_set = collection.begin(); cur_set != collection.end(); cur_set++) {
+  for (vector<set<IIR_Declaration *> *>::iterator cur_set = collection.begin(); cur_set != collection.end(); ++cur_set) {
     set<IIR_Declaration*> *decl_set = *cur_set;
-    for (set<IIR_Declaration*>::iterator decl = decl_set->begin(); decl != decl_set->end(); decl++) {
+    for (set<IIR_Declaration*>::iterator decl = decl_set->begin(); decl != decl_set->end(); ++decl) {
       if (IIRBase_TextLiteral::cmp((*decl)->get_declarator(), name) == 0)
         result->insert(*decl);
     }

@@ -112,11 +112,11 @@ TyvisWaitStatement::_publish_cc_procedure_wait( published_file &_cc_out,
   register int i;
 
   // Save necessary declarations.
-  for(i = 0; i < _num_decls; i++) {
+  for(i = 0; i < _num_decls; ++i) {
     _proc_decl = _proc_decl_type[i];
 
     std::set<IIR_Declaration*> *decl_set = declarations->get_set(_proc_decl);
-    for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+    for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
       decl = dynamic_cast<TyvisDeclaration *>(*iter);
       _cc_out << "if(!";
       decl->_publish_cc_lvalue( _cc_out , declarations );
@@ -128,10 +128,10 @@ TyvisWaitStatement::_publish_cc_procedure_wait( published_file &_cc_out,
 	  << "RValue*[numSignals];" << NL()
 	  << "numSignals = 0;" << NL();
 
-  for(i = 0; i < _num_decls; i++) {
+  for(i = 0; i < _num_decls; ++i) {
     _proc_decl = _proc_decl_type[i];
     std::set<IIR_Declaration*> *decl_set = declarations->get_set(_proc_decl);
-    for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+    for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
       _cc_out << "if(!";
       decl->_publish_cc_lvalue( _cc_out , declarations );
@@ -167,11 +167,11 @@ TyvisWaitStatement::_publish_cc_procedure_wait( published_file &_cc_out,
   // Restore the required declarations.
   _cc_out << OS("{") 
 	  << "int numSignals = 0;" << NL();
-  for(i = 0; i < _num_decls; i++) {
+  for(i = 0; i < _num_decls; ++i) {
     _proc_decl = _proc_decl_type[i];
 
     std::set<IIR_Declaration*> *decl_set = declarations->get_set(_proc_decl);
-    for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+    for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
       decl = dynamic_cast<TyvisDeclaration *>(*iter);
       _cc_out << "if(!";
       decl->_publish_cc_lvalue( _cc_out , declarations );

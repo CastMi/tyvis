@@ -25,7 +25,7 @@ FanOutList::FanOutList(){}
 FanOutList::~FanOutList(){
   for( vector<FanDest *>::iterator i = fanOut.begin();
        i < fanOut.end();
-       i++ ){
+       ++i ){
     delete (*i);
   }
   fanOut.clear();
@@ -40,7 +40,7 @@ FanOutList &
 FanOutList::operator=( const FanOutList &that ){
   for( vector<FanDest *>::const_iterator i = that.fanOut.begin();
        i < that.fanOut.end();
-       i++ ){
+       ++i ){
     fanOut.push_back( (*i)->clone() );
   }
   return *this;
@@ -51,7 +51,7 @@ void
 FanOutList::sendEvent( const SigEvent *toSend, SimulationObject *sender ){
   for( vector<FanDest *>::iterator i = fanOut.begin();
        i < fanOut.end();
-       i++ ){
+       ++i ){
     (*i)->sendEvent( toSend, sender );
   }
 }
@@ -61,7 +61,7 @@ FanOutList::add( const string &toAdd, int destSigId ){
   bool found = false;
   for( vector<FanDest *>::const_iterator i = fanOut.begin();
        i < fanOut.end();
-       i++ ){
+       ++i ){
     if( (*i)->getProcessName() == toAdd && (*i)->getDestSigId() == destSigId ){
       found = true;
       break;
@@ -76,7 +76,7 @@ void
 FanOutList::addAll( const FanOutList &toAdd ){
   for( vector<FanDest *>::const_iterator i = toAdd.fanOut.begin();
        i < toAdd.fanOut.end();
-       i++ ){
+       ++i ){
     add( (*i)->getProcessName(), (*i)->getDestSigId() );
   }
 }
@@ -85,7 +85,7 @@ void
 FanOutList::dump( ostream &os ){
   for( vector<FanDest *>::const_iterator i = fanOut.begin();
        i < fanOut.end();
-       i++ ){
+       ++i ){
     os << (*i)->getProcessName() << " : " << (*i)->getDestSigId() << endl;
   }
 }
@@ -94,7 +94,7 @@ void
 FanOutList::getIds( vector<int> & f ){
   for( vector<FanDest *>::const_iterator i = fanOut.begin();
        i < fanOut.end();
-       i++ ){
+       ++i ){
     f.push_back((*i)->getDestSigId());
   }
 }

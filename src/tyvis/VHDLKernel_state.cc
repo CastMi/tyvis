@@ -102,7 +102,7 @@ VHDLKernel_state::deserialize(ifstream *) {
 void
 VHDLKernel_state::deserialize( ifstream *inFile, SimulationObject *simObj ){
   ASSERT ( simObj != NULL );
-  VHDLKernel *base = (VHDLKernel *)simObj;
+  VHDLKernel *base = static_cast<VHDLKernel*>(simObj);
   initState( myProc, base );
   deserialize(inFile);
 }

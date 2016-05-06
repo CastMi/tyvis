@@ -149,18 +149,14 @@ TyvisAssociationList::_publish_cc_subprogram_arguments( published_file &_cc_out 
 void
 TyvisAssociationList::_publish_cc_port_map_associations( published_file &_cc_out,
 							 PublishData *declarations ) {
-  TyvisAssociationElement *association = NULL;
-  Tyvis *formal = NULL;
-  Tyvis *interface_decl = NULL;
-
   CC_REF( _cc_out, "TyvisAssociationList::_publish_cc_port_map_associations" );
+  TyvisAssociationElement *association = dynamic_cast<TyvisAssociationElement *>(first());
+  Tyvis *formal = association->_get_formal();
 
-  association = dynamic_cast<TyvisAssociationElement *>(first());
-  formal = association->_get_formal();
   ASSERT(formal != NULL);
   if(formal != NULL) {
     // ### assumes the parameter in order, also on by expression not open yet
-    while( association && association->_get_actual() ) {
+    for( Tyvis* interface_decl = nullptr; association && association->_get_actual(); ) {
       interface_decl = association->_get_formal();
       _cc_out << OS("tmpPortMap->addPortAssociation(") 
 	      << "&component->";
@@ -233,20 +229,15 @@ TyvisAssociationList::_publish_cc_unconstrained_ports( published_file &_cc_out,
 void
 TyvisAssociationList::_publish_cc_elaborate( published_file &_cc_out,
 					     PublishData *declarations ){
-  TyvisInterfaceDeclaration* port_clause;
-  TyvisAssociationElement* actual_clause;
-  Tyvis* formal;
-  TyvisDeclaration* interfacedecl;
-  TyvisDeclaration* actualdecl;
-
   CC_REF( _cc_out, "TyvisAssociationList::_publish_cc_elaborate" );
+  TyvisInterfaceDeclaration* port_clause = dynamic_cast<TyvisInterfaceDeclaration *>((dynamic_cast<TyvisComponentDeclaration*>(_get_current_publish_node()))->get_local_port_clause()->first());
+  TyvisAssociationElement* actual_clause = dynamic_cast<TyvisAssociationElement *>(first());
+  Tyvis* formal = dynamic_cast<TyvisAssociationElement *>(actual_clause->_get_formal());
+  TyvisDeclaration* actualdecl;
   
-  port_clause = dynamic_cast<TyvisInterfaceDeclaration *>((dynamic_cast<TyvisComponentDeclaration*>(_get_current_publish_node()))->get_local_port_clause()->first());
-  actual_clause = dynamic_cast<TyvisAssociationElement *>(first());
-  formal = dynamic_cast<TyvisAssociationElement *>(actual_clause->_get_formal());
   if(formal != NULL) {
     //### assumes the parameter in order, also on by expression not open yet
-    for(; actual_clause != NULL; ) {
+    for(TyvisDeclaration* interfacedecl = nullptr; actual_clause != NULL; ) {
       interfacedecl = dynamic_cast<TyvisDeclaration*>(actual_clause->_get_formal());
       //->get_identifier()->_get_declaration();
       //      switch(((TyvisInterfaceDeclaration*)interfacedecl)->get_mode()) {

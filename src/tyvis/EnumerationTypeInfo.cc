@@ -59,7 +59,7 @@ EnumerationTypeInfo::getIndex( const string &value ) const {
   int count = 0;
   for( vector<string>::const_iterator i = imageMap->begin();
        i < imageMap->end();
-       i++, count++ ){
+       ++i, ++count ){
     if( *i == value ){
       retval = count;
       break;
@@ -94,7 +94,7 @@ EnumerationTypeInfo::operator==( const TypeInfo &that ) const {
     if( getImageMap().size() == that.getImageMap().size() ){
       for( unsigned int i = 0;
 	   i < imageMap->size();
-	   i++ ){
+	   ++i ){
 	if( (*imageMap)[i] != that.getImageMap()[i] ){
 	  retval = false;
 	  break;
@@ -138,7 +138,7 @@ EnumerationTypeInfo::isCharacterType() const {
 	break;
       }
     }
-    i++;
+    ++i;
   }
   return retval;
 }

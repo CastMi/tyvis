@@ -67,14 +67,13 @@ TyvisComponentInstantiationStatement::~TyvisComponentInstantiationStatement(){
 void
 TyvisComponentInstantiationStatement::_publish_createNetInfo( published_file &_cc_out, PublishData *declarations ){  
   TyvisDeclaration* decl = dynamic_cast<TyvisDeclaration *>(_get_instantiated_unit());
-  TyvisAssociationElement* actual_clause = NULL;
-  Tyvis* formal = NULL;
   TyvisLabel *label = _get_mangled_label();
 
   ASSERT(decl != NULL);
 
   if(decl->get_kind() == IIR_COMPONENT_DECLARATION) {
-    actual_clause = dynamic_cast<TyvisAssociationElement *>(get_port_map_aspect()->first());
+    Tyvis* formal = nullptr;
+    TyvisAssociationElement* actual_clause = dynamic_cast<TyvisAssociationElement *>(get_port_map_aspect()->first());
     if(actual_clause == NULL){
       return;
     }
@@ -837,8 +836,6 @@ TyvisComponentInstantiationStatement::_publish_cc_elaborate_downType( published_
 void
 TyvisComponentInstantiationStatement::_publish_connect( published_file &_cc_out, PublishData *declarations ){
   TyvisLabel *label = _get_mangled_label();
-  int noofinputsignals =0;
-  int noofoutputsignals =0;
   IIR_Boolean first = false;
   TyvisDeclaration* tempDeclaration = NULL;
   ASSERT( dynamic_cast<TyvisDeclaration *>(_get_instantiated_unit()) != NULL );
@@ -1357,6 +1354,7 @@ TyvisComponentInstantiationStatement::_transmute() {
   }
 
   ASSERT (entity != 0);
+  ASSERT( arch != 0 );
 
   ostringstream component_stream;
   string componentName;
@@ -1379,7 +1377,6 @@ TyvisComponentInstantiationStatement::_transmute() {
     enclosingDecls->append(component_decl);
 
     if( config_spec == 0 ){
-      ASSERT( arch != 0 );
       config_spec = _build_implicit_configuration_specification( arch, component_decl );
       config_spec->set_generic_map_aspect(get_generic_map_aspect());
       config_spec->set_port_map_aspect(get_port_map_aspect());
@@ -1427,18 +1424,16 @@ TyvisComponentInstantiationStatement::_get_instantiated_unit() {
 TyvisConfigurationSpecification*
 TyvisComponentInstantiationStatement::_get_configuration_specification(TyvisDeclarationList* decl_list) {
   
-  TyvisComponentDeclaration* componentname = NULL;
   TyvisConfigurationSpecification* config_spec_decl = NULL;
 
   ASSERT( _get_instantiated_unit()->get_kind() == IIR_COMPONENT_DECLARATION );  
-  componentname = dynamic_cast<TyvisComponentDeclaration *>(_get_instantiated_unit());
 
   // Searching for configuration specification
   TyvisDeclaration* decl = dynamic_cast<TyvisComponentDeclaration *>(decl_list->first());
   while(decl != NULL) {
     config_spec_decl = dynamic_cast<TyvisConfigurationSpecification*>(decl);
     if( config_spec_decl != NULL ) {
-      if(config_spec_decl->_has_same_component((TyvisComponentInstantiationStatement*)this) == TRUE) {
+      if(config_spec_decl->_has_same_component(static_cast<TyvisComponentInstantiationStatement*>(this)) == TRUE) {
 	if (_get_declarative_region()->get_kind() == IIR_CONCURRENT_GENERATE_FOR_STATEMENT) {
 	  return config_spec_decl;
 	}

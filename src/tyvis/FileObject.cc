@@ -305,8 +305,8 @@ savantfile_open( VHDLKernel *,
 int
 savantfile_open( VHDLKernel *,
 		 FileObject &fileObject,
-		 const StringLiteral fileName,
-		 const EnumerationLiteral openMode ){
+		 const StringLiteral& fileName,
+		 const EnumerationLiteral& openMode ){
   fileObject.open( fileName.toString(), openMode );
   return NORMAL_RETURN;
 }

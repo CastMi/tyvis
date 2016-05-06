@@ -89,9 +89,6 @@ void
 TyvisBlockConfiguration::_publish_cc_configure_block( published_file &_cc_out,
                                                       PublishData *declarations,
                                                       IIR_Boolean ){
-  TyvisConcurrentGenerateIfStatement  *tempGenerateIfStmt;
-  TyvisConcurrentGenerateForStatement *tempGenerateForStmt;
-  TyvisSliceName                      *tempSlice;
   TyvisLabel                          *mangled_label = NULL;
 
   CC_REF( _cc_out, "TyvisBlockConfiguration::_publish_cc_configure_block" );
@@ -101,12 +98,14 @@ TyvisBlockConfiguration::_publish_cc_configure_block( published_file &_cc_out,
     
     if (_get_block_specification()->get_kind() == IIR_LABEL) {
       if ((dynamic_cast<TyvisLabel *> (_get_block_specification()))->get_statement()->get_kind() == IIR_CONCURRENT_GENERATE_IF_STATEMENT) {
-	tempGenerateIfStmt = dynamic_cast<TyvisConcurrentGenerateIfStatement *>( (dynamic_cast<TyvisLabel *>(_get_block_specification()))->get_statement());
+         TyvisConcurrentGenerateIfStatement *tempGenerateIfStmt =
+      dynamic_cast<TyvisConcurrentGenerateIfStatement *>( (dynamic_cast<TyvisLabel *>(_get_block_specification()))->get_statement());
 	ASSERT ( tempGenerateIfStmt->get_kind() == IIR_CONCURRENT_GENERATE_IF_STATEMENT );
 	tempGenerateIfStmt->_publish_cc_generate_condition( _cc_out, declarations );
       }
       if ((dynamic_cast<TyvisLabel *> (get_block_specification()))->get_statement()->get_kind() == IIR_CONCURRENT_GENERATE_FOR_STATEMENT) {
-	tempGenerateForStmt = dynamic_cast<TyvisConcurrentGenerateForStatement *>( (dynamic_cast<TyvisLabel *>(get_block_specification()))->get_statement());
+         TyvisConcurrentGenerateForStatement *tempGenerateForStmt =
+            dynamic_cast<TyvisConcurrentGenerateForStatement *>( (dynamic_cast<TyvisLabel *>(get_block_specification()))->get_statement());
 	ASSERT(tempGenerateForStmt->get_kind() == IIR_CONCURRENT_GENERATE_FOR_STATEMENT);
 	tempGenerateForStmt->_publish_cc_generate_for_loop_with_zero( _cc_out,
                                                                       declarations,
@@ -114,7 +113,7 @@ TyvisBlockConfiguration::_publish_cc_configure_block( published_file &_cc_out,
       }
     }
     else if (get_block_specification()->get_kind() == IIR_SLICE_NAME) {
-      tempSlice = dynamic_cast<TyvisSliceName *>(_get_block_specification());
+      TyvisSliceName *tempSlice = dynamic_cast<TyvisSliceName *>(_get_block_specification());
       ASSERT ( tempSlice->get_kind() == IIR_SLICE_NAME );
       tempSlice->_publish_cc_slice_name_as_for_loop( _cc_out, declarations );
     }

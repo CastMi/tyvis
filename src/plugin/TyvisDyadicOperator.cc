@@ -216,26 +216,23 @@ TyvisDyadicOperator::_flush_stmt_index() {
   _get_right_operand()->_flush_stmt_index();
 }
 
-IIR_Boolean   
+IIR_Boolean
 TyvisDyadicOperator::_contribution_quantity_found() {
-  IIR_Boolean retval = FALSE;
-  retval = _get_left_operand()->_contribution_quantity_found() ||
+  IIR_Boolean retval = _get_left_operand()->_contribution_quantity_found() ||
     _get_right_operand()->_contribution_quantity_found();
   return retval;
 }
 
 IIR_Boolean
 TyvisDyadicOperator::_reference_quantity_found() {
-  IIR_Boolean retval = FALSE;
-  retval = _get_left_operand()->_reference_quantity_found() ||
+  IIR_Boolean retval = _get_left_operand()->_reference_quantity_found() ||
     _get_right_operand()->_reference_quantity_found();
   return retval;
 }
 
 IIR_Boolean
 TyvisDyadicOperator::_differential_quantity_found() {
-  IIR_Boolean retval = FALSE;
-  retval = _get_left_operand()->_differential_quantity_found() ||
+  IIR_Boolean retval = _get_left_operand()->_differential_quantity_found() ||
     _get_right_operand()->_differential_quantity_found();
   return retval;
 }

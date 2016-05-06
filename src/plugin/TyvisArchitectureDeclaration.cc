@@ -91,7 +91,6 @@ void TyvisArchitectureDeclaration::_publish_cc_main(published_file & main_writer
      << "( \"" << myname << "\" );" << NL()
      << "object_pointers.push_back( " << myname << " );" << NL();
   _get_architecture_statement_part()->_publish_cc_main(main_writer);
-   std::string *current_name = _get_full_current_publish_name();
   _remove_current_publish_name( );
 }
 
@@ -228,8 +227,8 @@ TyvisArchitectureDeclaration::_publish_cc_blocks_elaborate( published_file &_cc_
   
   arch_stmt = dynamic_cast<TyvisArchitectureStatement *>(get_architecture_statement_part()->first());
   while (arch_stmt != NULL) {
-    if (arch_stmt->get_kind() == IIR_BLOCK_STATEMENT |
-        arch_stmt->get_kind() == IIR_CONCURRENT_GENERATE_FOR_STATEMENT |
+    if (arch_stmt->get_kind() == IIR_BLOCK_STATEMENT ||
+        arch_stmt->get_kind() == IIR_CONCURRENT_GENERATE_FOR_STATEMENT ||
         arch_stmt->get_kind() == IIR_CONCURRENT_GENERATE_IF_STATEMENT) {
       arch_stmt->_publish_cc_elaborate( _cc_out, declarations );
     }
@@ -464,7 +463,6 @@ TyvisArchitectureDeclaration::_publish_cc_constructor( published_file &_cc_out, 
 void
 TyvisArchitectureDeclaration::_publish_cc_constructor_with_no_arguments( published_file &_cc_out, PublishData *declarations, PublishData *arch_declarations ) {
   IIR_Boolean firstDeclFlag         = TRUE;
-  int noOfUnconstrainedPorts        = 0;
   
   CC_REF( _cc_out, "TyvisArchitectureDeclaration::_publish_cc_constructor_with_no_arguments" );
  
@@ -508,8 +506,7 @@ TyvisArchitectureDeclaration::_publish_cc_constructor_with_arguments(published_f
     firstDeclFlag = FALSE;
   }
 
-  bool tempFlag = true;
-  tempFlag = _get_architecture_declarative_part()->_publish_cc_constant_definitions( _cc_out, declarations, firstDeclFlag);
+  bool tempFlag = _get_architecture_declarative_part()->_publish_cc_constant_definitions( _cc_out, declarations, firstDeclFlag);
   firstDeclFlag = tempFlag && firstDeclFlag;
 
   _publish_cc_ams_objects_init(_cc_out, firstDeclFlag, declarations, arch_declarations);
@@ -550,7 +547,7 @@ TyvisArchitectureDeclaration::_publish_cc_instantiate( published_file &_cc_out, 
 	       << OS( _get_cc_elaboration_class_name() + "::initializeLP(){")
           << "std::cout << name_ << \": initialization\" << std::endl;" << NL()
           << "std::vector<std::shared_ptr<warped::Event>> response_events;" << NL()
-          << OS("for ( auto it = hierarchy_.begin(); it != hierarchy_.end(); it++) {")
+          << OS("for ( auto it = hierarchy_.begin(); it != hierarchy_.end(); ++it) {")
           << "std::cout << name_ << \": send a message to \" << name_ << \" to initialize the signal \" << (*it).first << std::endl;" << NL()
           << "response_events.emplace_back(new SigEvent { name_, 0, (*it).first, VTime::getZero() });"
           << CS("}\n")
@@ -572,7 +569,7 @@ TyvisArchitectureDeclaration::_publish_cc_createNetInfo( published_file &_cc_out
           << OS("if ( delay == 0 ) {")
           << "signals_[name] = value;" << NL()
           << OS("if ( hierarchy_.find(name) != hierarchy_.end() ) {")
-          << OS("for ( auto it = hierarchy_.find(name)->second.begin(); it != hierarchy_.find(name)->second.end(); it++) {")
+          << OS("for ( auto it = hierarchy_.find(name)->second.begin(); it != hierarchy_.find(name)->second.end(); ++it) {")
           << "std::cout << name_ << \": send a message to \" << (*it).first << \" because the signal \" << (*it).second << \" has changed\" << std::endl;" << NL()
           << "response_events.emplace_back(new SigEvent { (*it).first, value, (*it).second, timestamp });"
           << CS("}")
@@ -827,7 +824,7 @@ TyvisArchitectureDeclaration::_publish_cc_ams_objects( published_file &_cc_out,
     if(decl->is_implicit_declaration() == TRUE) {
       decl->_publish_cc_decl( _cc_out, declarations );
     }
-    iter++;
+    ++iter;
   }
 }
 
@@ -939,8 +936,8 @@ TyvisArchitectureDeclaration::_publish_cc_ams_objects_init( published_file &_cc_
   decl = dynamic_cast<TyvisDeclaration *>(get_architecture_declarative_part()->successor(decl));
   }
 
-  std::set<IIR_Declaration *> *decl_set = declarations->get_set(TyvisDeclaration::QUANTITY);  
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+  std::set<IIR_Declaration *> *decl_set = declarations->get_set(TyvisDeclaration::QUANTITY);
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if(decl->is_implicit_declaration() == TRUE) {
       if((first == 0) && (firstDeclFlag == 1)) {
@@ -1052,14 +1049,14 @@ TyvisArchitectureDeclaration::_publish_cc_ams_form_break_set(published_file &_cc
 void
 TyvisArchitectureDeclaration::_publish_cc_ams_initialize_signals(published_file &_cc_out, PublishData *declarations ) {
   TyvisConcurrentStatement* conc_stmt = NULL;
-  TyvisDeclaration *decl;
+  //TyvisDeclaration *decl;
   savant::set<TyvisDeclaration> quantity_set;
-  
+
   _cc_out << "void\n";
   _publish_cc_binding_name(_cc_out.get_stream());
   _cc_out << "_elab::initializeSignals() {\n";
   //  _currently_publishing_simultaneous_stmt  = TRUE;
-  decl = dynamic_cast<TyvisDeclaration *>(*(declarations->get_set(TyvisDeclaration::SIGNAL)->begin()));
+  //decl = dynamic_cast<TyvisDeclaration *>(*(declarations->get_set(TyvisDeclaration::SIGNAL)->begin()));
   //  _currently_publishing_simultaneous_stmt  = FALSE;
   TyvisDeclaration *current_quantity_decl = NULL;
   conc_stmt = dynamic_cast <TyvisConcurrentStatement *>
@@ -1099,7 +1096,7 @@ TyvisArchitectureDeclaration::_publish_cc_ams_initialize_signals(published_file 
       }
       TyvisProcessStatement *current_process_stmt = dynamic_cast <TyvisProcessStatement *> (conc_stmt);
       std::set<IIR_Declaration*> *decl_set = current_process_stmt->get_declaration_collection()->get_set(TyvisDeclaration::QUANTITY);
-      for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {
+      for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
         current_quantity_decl = dynamic_cast<TyvisDeclaration*>(*iter);
         quantity_set.add(dynamic_cast<TyvisDeclaration*>(current_quantity_decl));
       }
@@ -1138,10 +1135,10 @@ TyvisArchitectureDeclaration::_publish_cc_ams_connect_terminals(published_file &
   _cc_out << "terminalInfo = (AMSType**)new "
           << "char[numberOfTerminals * sizeof(AMSType*)];\n";
   _cc_out << "va_start(ap, numberOfTerminals);\n";
-  _cc_out << "for(int i=0; i <numberOfTerminals; i++) {\n";
+  _cc_out << "for(int i=0; i <numberOfTerminals; ++i) {\n";
   _cc_out << "  terminalInfo[i] = va_arg(ap, AMSType*);\n";
   _cc_out << "}\n";
-  
+
   // adding code for mangling the names of the quantities inside component
   // thus a quantity vr inside a component will be renamed as vr_<label>
   // where this label is obtained from the component instantiation
@@ -1165,7 +1162,7 @@ TyvisArchitectureDeclaration::_publish_cc_ams_connect_terminals(published_file &
       _cc_out << "setTerminalInfo(";
       portelement->_publish_cc_lvalue(_cc_out, declarations);
       _cc_out << " , *(terminalInfo[" << terminal_index << "] ));\n";
-      terminal_index++;
+      ++terminal_index;
     }
       break;
     default:

@@ -47,7 +47,7 @@ CompositeLiteral::CompositeLiteral( const TypeInfo &initTypeInfo,
   indexTypeInfo( 0 ),
   deleteMembers( true ),
   myFactory(0){
-  for( int i = 0; i < initValue.length().getIntValue(); i++ ){
+  for( int i = 0; i < initValue.length().getIntValue(); ++i ){
     RValue *current = initValue.getField(i).clone();
     append( current );
   }
@@ -662,7 +662,7 @@ CompositeLiteral::operator<( const RValue &that ) const {
     const ArrayTypeInfo &rtypeinfo = *dynamic_cast<const ArrayTypeInfo *>(&that.getTypeInfo());
     if( ltypeinfo.range(defaultIndex()).getDirection() == ArrayInfo::to ){
       if( rtypeinfo.range(defaultIndex()).getDirection() == ArrayInfo::to ){ //TO:TO
-        for( int i = length().getIntValue()-1; i >= 0; i--){
+        for( int i = length().getIntValue()-1; i >= 0; --i){
 	  if( getField(i) > that.getField(i) ){
 	    retval = false;
 	    break;
@@ -671,28 +671,28 @@ CompositeLiteral::operator<( const RValue &that ) const {
       }
       else { //TO:DOWNTO
         int index = length().getIntValue()-1;
-	for( int i = 0; i < length().getIntValue(); i++ ){
+	for( int i = 0; i < length().getIntValue(); ++i ){
           if( getField(index) > that.getField(i) ){
             retval = false;
 	    break;
 	  }
-	  index--;
+	  --index;
 	}
       }
     }
     else { 
       if( rtypeinfo.range(defaultIndex()).getDirection() == ArrayInfo::to ){ //DOWNTO:TO
         int index = length().getIntValue()-1;
-        for( int i = 0; i < length().getIntValue(); i++ ){
+        for( int i = 0; i < length().getIntValue(); ++i ){
           if( getField(i) > that.getField(index) ){
 	    retval = false;
 	    break;
 	  }
-          index--;
+          --index;
 	}
       }
       else { //DOWNTO:DOWNTO
-        for( int i = 0; i < length().getIntValue(); i++ ){
+        for( int i = 0; i < length().getIntValue(); ++i ){
 	  if( getField(i) > that.getField(i) ){
 	    retval = false;
 	    break;
@@ -701,6 +701,7 @@ CompositeLiteral::operator<( const RValue &that ) const {
       }
     }
   }
+  return retval;
 }
 
 bool
@@ -792,7 +793,7 @@ CompositeLiteral::vhdlXor( const RValue &rhs ) const {
 Value
 CompositeLiteral::vhdlNot() const {
   RValue *retval = clone();
-  for(int i =0; i < length().getIntValue(); i++) {
+  for(int i =0; i < length().getIntValue(); ++i) {
     const EnumerationLiteral &lhs = dynamic_cast<const EnumerationLiteral&>(getField(i));
     const_cast<RValue &>(retval->getField(i)) = lhs.vhdlNot();
   }
@@ -832,13 +833,13 @@ CompositeLiteral::vhdlSla( const RValue &rhs ) const {
   
   EnumerationLiteral last_element = (EnumerationLiteral &) getField(lhsSize - 1);
   
-  for(i = numberOfShifts; i < lhsSize; i++) {
+  for(i = numberOfShifts; i < lhsSize; ++i) {
     EnumerationLiteral& enumerationPtr = (EnumerationLiteral&)retval->getField(i - numberOfShifts);
     EnumerationLiteral& enumerationLhs = (EnumerationLiteral&) getField(i);
     enumerationPtr = enumerationLhs;
   }
   
-  for(i = lhsSize - numberOfShifts; i < lhsSize; i++) {
+  for(i = lhsSize - numberOfShifts; i < lhsSize; ++i) {
     const_cast<RValue &>(retval->getField(i)) = last_element;
   }
       
@@ -867,13 +868,13 @@ CompositeLiteral::vhdlSra( const RValue &rhs ) const {
     return retval;
   }
   
-  for(i = lhsSize; i >= numberOfShifts; i--) {
+  for(i = lhsSize; i >= numberOfShifts; --i) {
     EnumerationLiteral& enumerationPtr = (EnumerationLiteral &) retval->getField(i);
     EnumerationLiteral& enumerationLhs = (EnumerationLiteral &) getField(i - numberOfShifts);
     enumerationPtr = enumerationLhs;
   }
 
-  for(i = 0; i < lhsSize; i++) {
+  for(i = 0; i < lhsSize; ++i) {
     const_cast<RValue &>(retval->getField(i)) = first_value;
   }
   
@@ -891,21 +892,23 @@ CompositeLiteral::vhdlRor( const RValue &rhs ) const {
   }
 
   RValue *retval = clone();
+  if (lhsSize == 0) {
+    return retval;
+  }
   numberOfShifts = numberOfShifts % lhsSize;
-  
-  if ((numberOfShifts == 0) || (lhsSize == 0)) {
+  if (numberOfShifts == 0) {
     return retval;
   }
 
   // Copy tail of lhs to head of return value
-  for(i = 0, src_pos = lhsSize - numberOfShifts; (src_pos < lhsSize); src_pos++, src_pos++) {
+  for(i = 0, src_pos = lhsSize - numberOfShifts; (src_pos < lhsSize); ++src_pos, ++src_pos) {
     EnumerationLiteral &enumerationPtr = (EnumerationLiteral &) retval->getField(i);
     EnumerationLiteral &enumerationLhs = (EnumerationLiteral &) getField(src_pos);
     enumerationPtr = enumerationLhs;
   }
 
   // Copy head of lhs to tail of return value
-  for(src_pos = 0, i = numberOfShifts; i < lhsSize; src_pos++, i++)  {
+  for(src_pos = 0, i = numberOfShifts; i < lhsSize; ++src_pos, ++i)  {
     EnumerationLiteral& enumerationPtr = (EnumerationLiteral &) retval->getField(i);
     EnumerationLiteral& enumerationLhs = (EnumerationLiteral &) getField(src_pos);
     enumerationPtr = enumerationLhs;
@@ -925,21 +928,23 @@ CompositeLiteral::vhdlRol( const RValue &rhs ) const {
   }
   
   RValue *retval = clone();
+  if (lhsSize == 0) {
+    return retval;
+  }
   numberOfShifts   = numberOfShifts % lhsSize;
-  
-  if ((numberOfShifts == 0) || (lhsSize == 0)) {
+  if (numberOfShifts == 0) {
     return retval;
   }
   
   // Copy head of lhs to tail of return value
-  for(src_pos = 0, i = lhsSize - numberOfShifts; (src_pos < numberOfShifts); i++, src_pos++) {
+  for(src_pos = 0, i = lhsSize - numberOfShifts; (src_pos < numberOfShifts); ++i, ++src_pos) {
     EnumerationLiteral& enumerationPtr = (EnumerationLiteral &) retval->getField(i);
     EnumerationLiteral& enumerationLhs = (EnumerationLiteral &) getField(src_pos);
     enumerationPtr = enumerationLhs;
   }
   
   // Copy tail of lhs to head of return value
-  for(i = 0, src_pos = lhsSize - numberOfShifts; src_pos < lhsSize; src_pos++, i++)  {
+  for(i = 0, src_pos = lhsSize - numberOfShifts; src_pos < lhsSize; ++src_pos, ++i)  {
     EnumerationLiteral& enumerationPtr = (EnumerationLiteral &) retval->getField(i);
     EnumerationLiteral& enumerationLhs = (EnumerationLiteral &) getField(src_pos);
     enumerationPtr = enumerationLhs;
@@ -951,7 +956,7 @@ CompositeLiteral::vhdlRol( const RValue &rhs ) const {
 Value
 CompositeLiteral::vhdlConcatenate( const RValue &rhs ) const {
   RValue *retval = clone();
-  for( int i = 0; i < rhs.length(UniversalInteger(1)).getIntValue(); i++ ){
+  for( int i = 0; i < rhs.length(UniversalInteger(1)).getIntValue(); ++i ){
     ASSERT(dynamic_cast<CompositeLiteral *>(retval) != 0 );
     dynamic_cast<CompositeLiteral *>(retval)->append( rhs.getField(i) );
   }
@@ -971,7 +976,7 @@ CompositeLiteral::bitOperation( const RValue &rhsAggregate,
   }
 
   RValue *retval = clone();
-  for( int i = 0; i < lhs_size; i++ ){
+  for( int i = 0; i < lhs_size; ++i ){
     const EnumerationLiteral &lhs = dynamic_cast<const EnumerationLiteral &>(getField(i));
     const EnumerationLiteral &rhs = dynamic_cast<const EnumerationLiteral &>(rhsAggregate.getField(i));
     const_cast<RValue &>(retval->getField(i)) = (&(lhs)->*operation)(rhs);
@@ -1007,7 +1012,7 @@ void
 CompositeLiteral::cloneElements( const vector<RValue *> &thatElements ){
   for( vector<RValue *>::const_iterator i = thatElements.begin();
        i < thatElements.end();
-       i++ ){
+       ++i ){
     myElements.push_back( (*i)->clone() );
   }
 }
@@ -1098,7 +1103,7 @@ CompositeLiteral::insertElements( const string &initValue ){
       int pos = characterTypeInfo.getIndex( string("'") + initValue[index] + "'" );
       ASSERT( pos >= 0 );
       myElements.push_back( new EnumerationLiteral( characterTypeInfo, pos ) );
-      count++;
+      ++count;
       finished = !i.hasNext() || count == initValue.length();
     }
   }

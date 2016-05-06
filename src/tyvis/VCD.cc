@@ -410,7 +410,7 @@ VCD::updateSignal( int sigId, const RValue *newValue, const VHDLVTime &time ) {
               if ( idLabel.find(id) == idLabel.end() )
                 idLabel[id] = "";
               sig_i = sig_next;
-              sig_next++;
+              ++sig_next;
               if (sig_next != sig_end) {
                 id = *sig_next;
               }
@@ -479,7 +479,7 @@ VCD::updateSignal( int sigId, const RValue *newValue, const VHDLVTime &time ) {
 
 #ifdef VCDDEBUG
   static int count = 0;
-  count++;
+  ++count;
   cout << "(count = " << count << ") ";
   if (count == 5901 || count == 5902) {
   }
@@ -555,7 +555,7 @@ VCD::outputTime( LONG dTime ) {
             cValue[id] = r;
             changed = true;
           }
-          r_next++;
+          ++r_next;
           if (r_next != r_end) {
             id = (*r_next).first;
           }
@@ -567,7 +567,7 @@ VCD::outputTime( LONG dTime ) {
           string compValue = "b";
           bool lead = true;
           int j=firstCompositeId[compId];
-          for (int i=0 ; i<compositeSize[compId] ; i++, j++) {
+          for (int i=0 ; i<compositeSize[compId] ; ++i, ++j) {
             if ( !lead || cValue[j] != "0" || i == compositeSize[compId]-1 ){
               compValue += cValue[j];
               lead = false;

@@ -236,7 +236,7 @@ _savant_entity_elab::addChild( SignalNetinfo *targetSigInfo,
 	  // Check if the first guy is an anonymous driver. If so pitch him
 	  // after copying the default initial value.
 	  ASSERT ( dynamic_cast<SourceInfo *>(targetSigInfo->getSource()) );
-	  SourceInfo *tempSourceInfo = (SourceInfo *) targetSigInfo->getSource();
+	  SourceInfo *tempSourceInfo = static_cast<SourceInfo*>(targetSigInfo->getSource());
 	  if (tempSourceInfo->getChild(0)->isAnonymousDriver() == true) {
 	    ASSERT( dynamic_cast<SourceData *>(tempSourceInfo->getChild(0)) );
 	    ObjectBase *tempData =
@@ -405,7 +405,6 @@ _savant_entity_elab::addDownTypeConversionFn( SignalNetinfo &lhs,
 					      SignalNetinfo &rhs,
 					      TypeConversionFnPtr typeConversionFn) {
   Block *rhsDownTypeConversionFnList;
-  int   *newFnId;
   int i;
 
   rhsDownTypeConversionFnList = getDownTypeConversionFnList(rhs);
@@ -420,7 +419,7 @@ _savant_entity_elab::addDownTypeConversionFn( SignalNetinfo &lhs,
     for(i = 0; (i < rhsDownTypeConversionFnList->getNumberOfElements()); i++) {
       lhs.addDownTypeConversionFn(rhsDownTypeConversionFnList->getElement(i));
     }
-    newFnId = new int;
+    int *newFnId = new int;
     *newFnId = addTypeConversionFn(typeConversionFn);
     lhs.addDownTypeConversionFn(newFnId);
   }

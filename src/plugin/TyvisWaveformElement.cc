@@ -75,11 +75,10 @@ TyvisWaveformElement::_get_time() {
 }
 IIR_Boolean
 TyvisWaveformElement::_is_null_transaction() {
-  int retval = -1;
   if( dynamic_cast<TyvisStringLiteral *>( _get_value()) ) {
     ASSERT(_get_value()->get_kind() == IIR_STRING_LITERAL);
     TyvisStringLiteral* string_lit = dynamic_cast<TyvisStringLiteral*>(_get_value());
-    retval = IIRBase_TextLiteral::cmp(string_lit, "null");
+    int retval = IIRBase_TextLiteral::cmp(string_lit, "null");
     if(retval == 0) {
       return TRUE;
     }

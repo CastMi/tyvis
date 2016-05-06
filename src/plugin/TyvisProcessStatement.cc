@@ -296,7 +296,7 @@ TyvisProcessStatement::_publish_cc_process_cc_file(PublishData *declarations){
     std::set<IIR_Declaration *> *decl_set = declarations->get_set(IIR_Declaration::SIGNAL);
     for (std::set<IIR_Declaration *>::iterator iter = decl_set->begin();
          iter != decl_set->end();
-         iter++) {
+         ++iter) {
       if (!IIRBase_TextLiteral::cmp((*iter)->get_declarator(), "guard")) {
         guardSignal = dynamic_cast<TyvisDeclaration *>(*iter);
 	break;
@@ -472,7 +472,7 @@ TyvisProcessStatement::_publish_cc_read_or_write( published_file &_cc_out,
   TyvisDeclaration *decl;
   // Publish copy operator for constants in this state.
   std::set<IIR_Declaration*> *decl_set = declarations->get_set(TyvisDeclaration::CONSTANT);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     switch (decl->_get_declarative_region()->get_kind()) {
     case IIR_PACKAGE_DECLARATION:
@@ -490,7 +490,7 @@ TyvisProcessStatement::_publish_cc_read_or_write( published_file &_cc_out,
   
   // Publish copy operator for signals in this state.
   decl_set = declarations->get_set(TyvisDeclaration::SIGNAL);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if (decl->is_implicit_declaration() == FALSE) {
       _cc_out << *decl->_get_mangled_declarator()
@@ -504,7 +504,7 @@ TyvisProcessStatement::_publish_cc_read_or_write( published_file &_cc_out,
   }
   
   decl_set = declarations->get_set(TyvisDeclaration::INTERFACE_SIGNAL);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_get_mangled_declarator()->_publish_cc_lvalue( _cc_out , declarations );
     _cc_out << "." << functionName << "(" << streamName;
@@ -517,7 +517,7 @@ TyvisProcessStatement::_publish_cc_read_or_write( published_file &_cc_out,
   
   // Publish copy operator for variables in this state.
   decl_set = declarations->get_set(TyvisDeclaration::VARIABLE);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if (decl->_get_subtype()->is_access_type() == FALSE) {
       decl->_get_mangled_declarator()->_publish_cc_lvalue( _cc_out , declarations );
@@ -528,7 +528,7 @@ TyvisProcessStatement::_publish_cc_read_or_write( published_file &_cc_out,
   
   // Publish copy operator for interface variables in this state - removed.
   decl_set = declarations->get_set(TyvisDeclaration::ATTRIBUTE);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_publish_cc_lvalue( _cc_out , declarations );
     _cc_out << "." << functionName << "(" << streamName << ");\n";
@@ -581,7 +581,7 @@ TyvisProcessStatement::_publish_cc_state_class( published_file &_cc_out,
       decl->_publish_cc_decl( _cc_out , declarations );
       break;
     }
-    iter++;
+    ++iter;
   }
   
   decl_set = declarations->get_set(TyvisDeclaration::SIGNAL);
@@ -599,7 +599,7 @@ TyvisProcessStatement::_publish_cc_state_class( published_file &_cc_out,
       //This function publishes all the declarations that are in scope.
       decl->_publish_cc_implicit_signal_attributes( _cc_out, declarations );
     }
-    iter++;
+    ++iter;
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::INTERFACE_SIGNAL);
@@ -609,7 +609,7 @@ TyvisProcessStatement::_publish_cc_state_class( published_file &_cc_out,
     decl->_publish_cc_decl( _cc_out , declarations );
     //This function publishes all the declarations that are in scope.
     decl->_publish_cc_implicit_signal_attributes( _cc_out, declarations );
-    iter++;
+    ++iter;
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::VARIABLE);
@@ -622,7 +622,7 @@ TyvisProcessStatement::_publish_cc_state_class( published_file &_cc_out,
     if (decl->_get_declarative_region()->get_kind() != IIR_FUNCTION_DECLARATION) {
       decl->_publish_cc_decl( _cc_out , declarations );
     }
-    iter++;
+    ++iter;
   }
   
   // interface variables are no longer handled here - removed code
@@ -631,7 +631,7 @@ TyvisProcessStatement::_publish_cc_state_class( published_file &_cc_out,
   while( iter != decl_set->end() ){
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_publish_cc_decl( _cc_out , declarations );
-    iter++;
+    ++iter;
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::ATTRIBUTE);
@@ -639,7 +639,7 @@ TyvisProcessStatement::_publish_cc_state_class( published_file &_cc_out,
   while( iter != decl_set->end() ){        
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_publish_cc_decl( _cc_out , declarations );
-    iter++;
+    ++iter;
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::S_FILE);
@@ -649,7 +649,7 @@ TyvisProcessStatement::_publish_cc_state_class( published_file &_cc_out,
 	    "TyvisProcessStatement::_publish_cc_state_class( published_file & )" );
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_publish_cc_decl( _cc_out , declarations );
-    iter++;
+    ++iter;
   }
   
   decl_set = declarations->get_set(TyvisDeclaration::QUANTITY);
@@ -667,7 +667,7 @@ TyvisProcessStatement::_publish_cc_state_class( published_file &_cc_out,
         }
       }
     }
-    iter++;
+    ++iter;
   }
 
   TyvisSequentialStatement *seqstmt =
@@ -723,7 +723,7 @@ TyvisProcessStatement::_publish_cc_composite_resolved_signal_init( published_fil
   TyvisDeclaration *decl = NULL;
 
   std::set<IIR_Declaration*> *decl_set = declarations->get_set(TyvisDeclaration::SIGNAL);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if(decl->_is_composite_resolved_signal() == TRUE) {
       decl->_publish_cc_lvalue( _cc_out , declarations );
@@ -736,7 +736,7 @@ TyvisProcessStatement::_publish_cc_composite_resolved_signal_init( published_fil
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::INTERFACE_SIGNAL);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if(decl->_is_composite_resolved_signal() == TRUE) {
       decl->_publish_cc_lvalue( _cc_out , declarations );
@@ -809,7 +809,7 @@ TyvisProcessStatement::_publish_cc_initstate( published_file &_cc_out,
       
       decl->_publish_cc_init( _cc_out, declarations );
     }
-    iter++;
+    ++iter;
   }
   
   // Publish intialization for Signals and Signal Interfaces
@@ -826,7 +826,7 @@ TyvisProcessStatement::_publish_cc_initstate( published_file &_cc_out,
 	 dynamic_cast<TyvisSubprogramDeclaration *>(decl->_get_declarative_region()) == NULL ){
       decl->_publish_cc_init( _cc_out, declarations );
     }
-    iter++;
+    ++iter;
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::INTERFACE_SIGNAL);
@@ -839,7 +839,7 @@ TyvisProcessStatement::_publish_cc_initstate( published_file &_cc_out,
 	dynamic_cast<TyvisSubprogramDeclaration *>(decl->_get_declarative_region()) == NULL ){
       decl->_publish_cc_init( _cc_out, declarations );
     }
-    iter++;
+    ++iter;
   }
   _set_current_publish_node( oldNode );
   
@@ -850,7 +850,7 @@ TyvisProcessStatement::_publish_cc_initstate( published_file &_cc_out,
   while( iter != decl_set->end() ){        
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_publish_cc_init( _cc_out, declarations );
-    iter++;
+    ++iter;
   }
 
   TyvisDeclaration *implied_decl = NULL;
@@ -872,7 +872,7 @@ TyvisProcessStatement::_publish_cc_initstate( published_file &_cc_out,
 	}
       }
     }
-    iter++;
+    ++iter;
   }
 
   _publish_cc_wait_init( _cc_out, declarations );
@@ -890,7 +890,7 @@ TyvisProcessStatement::_publish_cc_state_file_methods( published_file &_cc_out,
   while( iter != decl_set->end() ){        
     TyvisFileDeclaration *decl = dynamic_cast<TyvisFileDeclaration *>(*iter);
     decl->_publish_cc_shared_file_decl( _cc_out, declarations, _get_cc_state_class() );
-    iter++;
+    ++iter;
   }
 }
 
@@ -900,7 +900,7 @@ TyvisProcessStatement::_publish_cc_cleanstate( published_file &_cc_out ) {
   _cc_out << "void" << NL();
   _cc_out << _get_cc_state_class() << "::cleanState() {" << NL();
   _cc_out << "//" << " Hey!!! cleanup is done in the signal's destructor" << NL();
-  for(int i=0; i < _wait_stmt_list.size(); i++){ 
+  for(int i=0; i < _wait_stmt_list.size(); ++i){
     _cc_out << "wait[" << i <<"].destructSensitivityList();" << NL();
   }
 
@@ -921,7 +921,7 @@ TyvisProcessStatement::_publish_cc_locatesignal( published_file &_cc_out, Publis
   while( iter != decl_set->end() ){
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_publish_cc_locatesignal( _cc_out, declarations );
-    iter++;
+    ++iter;
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::INTERFACE_SIGNAL);
@@ -929,7 +929,7 @@ TyvisProcessStatement::_publish_cc_locatesignal( published_file &_cc_out, Publis
   while( iter != decl_set->end() ){
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_publish_cc_locatesignal( _cc_out, declarations );
-    iter++;
+    ++iter;
   }
   TyvisSequentialStatement *seqstmt =
     dynamic_cast<TyvisSequentialStatement *>(get_process_statement_part()->first());
@@ -968,7 +968,7 @@ TyvisProcessStatement::_publish_cc_operator_equalto( published_file &_cc_out, Pu
 
   // Publish copy operator for constants in this state.
   std::set<IIR_Declaration*> *decl_set = declarations->get_set(TyvisDeclaration::CONSTANT);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     switch (decl->_get_declarative_region()->get_kind()) {
     case IIR_PACKAGE_DECLARATION:
@@ -997,7 +997,7 @@ TyvisProcessStatement::_publish_cc_operator_equalto( published_file &_cc_out, Pu
   
   // Publish copy operator for signals in this state.
   decl_set = declarations->get_set(TyvisDeclaration::SIGNAL);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if( decl->is_implicit_declaration() == FALSE ){
       _cc_out << "this->"
@@ -1010,7 +1010,7 @@ TyvisProcessStatement::_publish_cc_operator_equalto( published_file &_cc_out, Pu
   }
   
   decl_set = declarations->get_set(TyvisDeclaration::INTERFACE_SIGNAL);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     _cc_out << "this->"
             << *decl->_get_mangled_declarator()
@@ -1022,7 +1022,7 @@ TyvisProcessStatement::_publish_cc_operator_equalto( published_file &_cc_out, Pu
   
   // Publish copy operator for variables in this state.
   decl_set = declarations->get_set(TyvisDeclaration::VARIABLE);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     // Don't publish variables that are declared within a function within the process.
     // They should only be defined within the function itself.
@@ -1037,7 +1037,7 @@ TyvisProcessStatement::_publish_cc_operator_equalto( published_file &_cc_out, Pu
 
   // Publish copy operator for interface variables in this state - removed.
   decl_set = declarations->get_set(TyvisDeclaration::ALIAS);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     _cc_out << "this->"
             << *decl->_get_mangled_declarator()
@@ -1047,7 +1047,7 @@ TyvisProcessStatement::_publish_cc_operator_equalto( published_file &_cc_out, Pu
   }
   
   decl_set = declarations->get_set(TyvisDeclaration::ATTRIBUTE);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     _cc_out << "this->";
     decl->_publish_cc_lvalue( _cc_out , declarations );
@@ -1060,7 +1060,7 @@ TyvisProcessStatement::_publish_cc_operator_equalto( published_file &_cc_out, Pu
   // This is not necessary since we directly replace the constant with the
   // value of the constant.
 
-  _cc_out << "for( int i = 0; i < numWaits; i++) wait[i] = s.wait[i];" << NL();
+  _cc_out << "for( int i = 0; i < numWaits; ++i) wait[i] = s.wait[i];" << NL();
   _cc_out << "return *this;" << NL()
 	  << CS("}\n");
 }
@@ -1170,7 +1170,7 @@ TyvisProcessStatement::_publish_cc_state_objects_init( published_file &_cc_out,
   std::set<IIR_Declaration*> *decl_set = declarations->get_set(TyvisDeclaration::CONSTANT);
   for ( std::set<IIR_Declaration*>::iterator iter = decl_set->begin();
 	iter != decl_set->end();
-	iter++) {        
+	++iter) {
     CC_REF( _cc_out, "TyvisProcessStatement::_publish_cc_state_objects_init()" );
     dynamic_cast<TyvisDeclaration *>(*iter)->_publish_cc_state_object_init( _cc_out,
 									    declarations );
@@ -1180,7 +1180,7 @@ TyvisProcessStatement::_publish_cc_state_objects_init( published_file &_cc_out,
   decl_set = declarations->get_set(TyvisDeclaration::SIGNAL);
   for( std::set<IIR_Declaration*>::iterator iter = decl_set->begin();
        iter != decl_set->end();
-       iter++) {        
+       ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if(decl->is_implicit_declaration() == FALSE) {
       CC_REF( _cc_out, "TyvisProcessStatement::_publish_cc_state_objects_init()" );
@@ -1196,7 +1196,7 @@ TyvisProcessStatement::_publish_cc_state_objects_init( published_file &_cc_out,
 
   // Publish inititalization for interface signals
   decl_set = declarations->get_set(TyvisDeclaration::INTERFACE_SIGNAL);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if(decl->is_implicit_declaration() == FALSE) {
       CC_REF( _cc_out, "TyvisProcessStatement::_publish_cc_state_objects_init()" );
@@ -1207,7 +1207,7 @@ TyvisProcessStatement::_publish_cc_state_objects_init( published_file &_cc_out,
 
   // Publish inititalization for variable
   decl_set = declarations->get_set(TyvisDeclaration::VARIABLE);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     CC_REF( _cc_out, "TyvisProcessStatement::_publish_cc_state_objects_init()" );
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     // Don't publish variables that are declared within a function within the process.
@@ -1219,21 +1219,21 @@ TyvisProcessStatement::_publish_cc_state_objects_init( published_file &_cc_out,
 
   // Publish inititalization for alias declarations
   decl_set = declarations->get_set(TyvisDeclaration::ALIAS);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     CC_REF( _cc_out, "TyvisProcessStatement::_publish_cc_state_objects_init()" );
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_publish_cc_state_object_init( _cc_out, declarations );
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::ATTRIBUTE);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     CC_REF( _cc_out, "TyvisProcessStatement::_publish_cc_state_objects_init()" );
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_publish_cc_state_object_init( _cc_out, declarations );
   }
 
 //   decl_set = declarations->get_set(TyvisDeclaration::QUANTITY);
-//   for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+//   for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
 //     TyvisDeclaration *implied_declaration = dynamic_cast<TyvisDeclaration *>(*iter);
 //     _cc_out << NL();
 //     if(decl->_get_implicit_declarations() != NULL &&
@@ -1296,7 +1296,7 @@ TyvisProcessStatement::_publish_cc_wait_init( published_file &_cc_out, PublishDa
 	sens_sig->_publish_cc_declarator( _cc_out, declarations );
 	_cc_out << "));" << NL(); 
 	current_signal_designator = dynamic_cast<TyvisDesignator *>(wait->get_sensitivity_list()->successor( current_signal_designator ));
-	sig++;
+	++sig;
       }	// while
       if(sens_list_newed == TRUE) {
 	current_signal_designator = dynamic_cast<TyvisDesignator *>(wait->get_sensitivity_list()->first());
@@ -1318,7 +1318,7 @@ TyvisProcessStatement::_add_declarations_in_initializations(PublishData *declara
   //Constants are made to publish first because,
   //other types of objects can be initialized using these constants
   std::set<IIR_Declaration*> *decl_set = declarations->get_set(TyvisDeclaration::CONSTANT);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if ( decl->_get_declarative_region()->get_kind() != IIR_PACKAGE_DECLARATION && decl->_get_declarative_region()->get_kind() != IIR_PACKAGE_BODY_DECLARATION ){
       
@@ -1327,7 +1327,7 @@ TyvisProcessStatement::_add_declarations_in_initializations(PublishData *declara
   }
   
   decl_set = declarations->get_set(TyvisDeclaration::SIGNAL);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     if(decl->is_implicit_declaration() == FALSE) {
       decl->_add_declarations_in_initializations( declarations );
@@ -1335,19 +1335,19 @@ TyvisProcessStatement::_add_declarations_in_initializations(PublishData *declara
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::INTERFACE_SIGNAL);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_add_declarations_in_initializations( declarations );
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::VARIABLE);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_add_declarations_in_initializations( declarations );
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::ALIAS);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_add_declarations_in_initializations( declarations );
   }
@@ -1501,13 +1501,13 @@ TyvisProcessStatement::_clear( PublishData *declarations ) {
   TyvisDeclaration *decl;
 
   std::set<IIR_Declaration*> *decl_set = declarations->get_set(TyvisDeclaration::SIGNAL);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_clear();
   }
 
   decl_set = declarations->get_set(TyvisDeclaration::INTERFACE_SIGNAL);
-  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); iter++) {        
+  for (std::set<IIR_Declaration*>::iterator iter = decl_set->begin(); iter != decl_set->end(); ++iter) {
     decl = dynamic_cast<TyvisDeclaration *>(*iter);
     decl->_clear();
   }

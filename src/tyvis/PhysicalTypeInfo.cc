@@ -119,7 +119,7 @@ PhysicalTypeInfo::getBaseMultiplier( const string &unitName ) const {
   LONG retval = 1LL;
   for( vector<UnitDeclaration>::const_iterator i = myUnits.begin();
        i < myUnits.end();
-       i++ ){
+       ++i ){
     retval = retval * (*i).getMultiplier().getValue();
     if( stringCaseCompare( (*i).getIdentifier(), unitName ) ){
       break;

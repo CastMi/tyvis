@@ -124,7 +124,7 @@ SourceInfo::addChild(SourceBase *newChild) {
     }
   }
   else if( dynamic_cast<SourceInfo *>(newChild) != 0 ){
-    SourceInfo *siPtr = (SourceInfo*)newChild;
+    SourceInfo *siPtr = static_cast<SourceInfo*>(newChild);
     for( unsigned int i = 0; i < rootDriverTable.size(); i++ ){
       if(  siPtr->_is_child_present(rootDriverTable[i]) ){
 	childPresent = 1;

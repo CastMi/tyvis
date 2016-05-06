@@ -49,7 +49,7 @@ CallStack::push(StackElement *elem) {
     elem->next = stackTop;
     stackTop = elem;
   }
-  numElements++;
+  ++numElements;
 }
 
 void

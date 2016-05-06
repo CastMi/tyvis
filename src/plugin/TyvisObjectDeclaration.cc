@@ -363,7 +363,7 @@ TyvisObjectDeclaration::_publish_cc_init_signal( published_file &_cc_out,
   }
   else {
     ASSERT ( dynamic_cast<TyvisDeclaration *>(_get_signal_decl()) != NULL );
-    tempDecl = (TyvisDeclaration *) _get_signal_decl();
+    tempDecl = static_cast<TyvisDeclaration*>(_get_signal_decl());
     if( _get_current_publish_node() != NULL && 
 	dynamic_cast<TyvisConcurrentStatement *>(_get_current_publish_node()) != NULL ){
       _get_current_publish_node()->_publish_cc_scoping_prefix( signalNetinfostr,

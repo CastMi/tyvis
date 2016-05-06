@@ -95,7 +95,7 @@ freeEquation::freeEquation(const char* name, adouble (*functionPtr) (component *
     VHDLType *currentQty = Qty[i];
     ASSERT(currentQty->getObject()->getKind() == ObjectBase::QUANTITY);
     currentQty->print(debug);
-    freeQty[i] = (Quantity *)currentQty->getObject();
+    freeQty[i] = static_cast<Quantity *>(currentQty->getObject());
   }
 
   // We need to check if any quantity can be implicit in this situation.

@@ -173,14 +173,13 @@ TyvisAggregate::_publish_cc_multi_dimensional_range( published_file &_cc_out, Pu
 void
 TyvisAggregate::_publish_cc_range( published_file &_cc_out, PublishData *declarations ) {
   TyvisScalarTypeDefinition *index_subtype = TyvisExpression::_get_subtype()->_get_resolved_index_subtype();
-  TyvisScalarTypeDefinition *baseType = NULL;
 
   CC_REF( _cc_out, "TyvisAggregate::_publish_cc_range" );
-  
+
   ASSERT(index_subtype->is_scalar_type() == TRUE);
 
   if (index_subtype->get_left() == NULL) {
-    baseType = dynamic_cast<TyvisScalarTypeDefinition *>(index_subtype->_get_resolved_base_type());
+    TyvisScalarTypeDefinition *baseType = dynamic_cast<TyvisScalarTypeDefinition *>(index_subtype->_get_resolved_base_type());
     if (baseType->get_left() == NULL) {
       baseType = dynamic_cast<TyvisScalarTypeDefinition *>(index_subtype->_get_bottom_base_type());
     }

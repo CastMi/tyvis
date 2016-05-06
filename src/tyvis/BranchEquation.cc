@@ -62,7 +62,7 @@ branchEquation::branchEquation(_savant_entity_ams_elab *designPtr, component **&
   va_list ap;
   va_start(ap, noOfVariables);
   VHDLType **Qty = new VHDLType*[numberOfQuantities];
-  for (int i=0; i<numberOfQuantities; i++) {
+  for (int i=0; i<numberOfQuantities; ++i) {
     VHDLType *currentQty = va_arg(ap, VHDLType *);
     Qty[i] = currentQty;
   }
@@ -97,19 +97,19 @@ branchEquation::branchEquation(const char* name, adouble(*functionPtr) (componen
   base = new int[numberOfQuantities];
   debug << "Equation name --> " << name << endl;
   debug << "RHSQtys : " << endl;
-  for (int i=0; i<numberOfQuantities; i++) {
+  for (int i=0; i<numberOfQuantities; ++i) {
     VHDLType *currentQty = Qty[i];
     ASSERT(currentQty->getObject()->getKind() == ObjectBase::QUANTITY);
     currentQty->print(debug);
-    branchQty[i] = (Quantity *)currentQty->getObject();
+    branchQty[i] = static_cast<Quantity*>currentQty->getObject();
   }
   matrixCount = 0;
   int numberOfCorrectValues = 0;
   noOfThroOrFreeQuantities = 0;
   if (numberOfQuantities == 1) {
-    noOfThroOrFreeQuantities++;
+    ++noOfThroOrFreeQuantities;
   }
-  for (int i=0; i<numberOfQuantities; i++) {
+  for (int i=0; i<numberOfQuantities; ++i) {
     base[i] = matrixCount;
     if (branchQty[i]->getType() == ACROSS) {
       matrixCount += 2;
@@ -119,7 +119,7 @@ branchEquation::branchEquation(const char* name, adouble(*functionPtr) (componen
       if (branchQty[i]->getType()!=IMPLICIT) {
        if ((branchQty[i]->getUsed()==0)||
 	   (branchQty[i]->getSourceCurrent()==true) ) {
-        noOfThroOrFreeQuantities++;
+        ++noOfThroOrFreeQuantities;
        }
        branchQty[i]->setUsed();
       }
@@ -128,12 +128,12 @@ branchEquation::branchEquation(const char* name, adouble(*functionPtr) (componen
       branchQty[i]->setUsed();
       if ((branchQty[i]->getPosNode() != branchQty[0]->getPosNode()) ||
           (branchQty[i]->getNegNode() != branchQty[0]->getNegNode()) ) {
-	numberOfCorrectValues++;
+	++numberOfCorrectValues;
       }
     }
   }
   correctValue = new int[numberOfCorrectValues];
-  for (int i=0; i<numberOfCorrectValues; i++) {
+  for (int i=0; i<numberOfCorrectValues; ++i) {
     correctValue[i] = 0;
   }
   branch = 0;
@@ -155,7 +155,7 @@ branchEquation::init() {
       index = index->getNext();
     }
   }
-  for (int i=0;i<numberOfQuantities;i++) {
+  for (int i=0; i<numberOfQuantities; ++i) {
     if (branchQty[i]->getType() == ACROSS) {
       ckt->addNodeCond(branchQty[i]->getPosNode(), EFFORT,branchQty[i]->getPosTerminal()->getTerminalName());
       ckt->addNodeCond(branchQty[i]->getNegNode(), EFFORT,branchQty[i]->getNegTerminal()->getTerminalName());
@@ -193,7 +193,7 @@ branchEquation::setBranch() {
   branchSetFlag=true;
   int tmp1 =  branchQty[0]->getPosNode();
   int tmp2 =  branchQty[0]->getNegNode();
-  for (int i=0;i<numberOfQuantities;i++) {
+  for (int i=0; i<numberOfQuantities; ++i) {
     if (branchQty[i]->getType() == THROUGH) {
       if ((tmp1 == branchQty[i]->getPosNode()) &&
 	  (tmp2 == branchQty[i]->getNegNode())) {
@@ -214,7 +214,7 @@ branchEquation::setBranch() {
     list<VHDLType *>::iterator thruIterator;
     for (thruIterator = globalThroughQuantityList.begin();
 	 thruIterator != globalThroughQuantityList.end();
-	 thruIterator++) {     
+	 ++thruIterator) {
       if ((((Quantity*)(*thruIterator)->getObject())->getPosNode() == branchQty[0]->getPosNode())&&
           (((Quantity*)(*thruIterator)->getObject())->getNegNode() == branchQty[0]->getNegNode())
           &&( (((Quantity*)(*thruIterator)->getObject())->getUsed() == 0) ||
@@ -239,17 +239,17 @@ branchEquation::setBranch() {
       AMSType tempTerm1(ObjectBase::TERMINAL ,"tempPos",tmp1),
 	tempTerm2(ObjectBase::TERMINAL ,"tempNeg",tmp2);
       AMSType *temp = new AMSType(ObjectBase::QUANTITY,"Is",0,0,THROUGH,&tempTerm1,&tempTerm2);
-      branchQty[numberOfQuantities] = (Quantity*)(temp)->getObject();
-      ((Quantity*)(temp)->getObject())->setIndex(globalAMSId - 1);
+      branchQty[numberOfQuantities] = static_cast<Quantity*>(temp)->getObject();
+      (static_cast<Quantity*>(temp)->getObject())->setIndex(globalAMSId - 1);
       sourceCurrent = globalAMSId - 1;
-      ((Quantity*)(temp)->getObject())->setUsed();
-      ((Quantity*)(temp)->getObject())->setSourceCurrent(true);
+      (static_cast<Quantity*>(temp)->getObject())->setUsed();
+      (static_cast<Quantity*>(temp)->getObject())->setSourceCurrent(true);
       list<contributionNode *>::iterator contributionIterator;
       for (contributionIterator =  globalContributionList.begin();
 	   contributionIterator !=  globalContributionList.end();
-	   contributionIterator++) {
-        if (((((Quantity*)(temp)->getObject())->getPosNode())==((*contributionIterator)->getTerminal()).getTerminalId())
-	    || ((((Quantity*)(temp)->getObject())->getNegNode())==((*contributionIterator)->getTerminal()).getTerminalId())) {
+	   ++contributionIterator) {
+        if ((((static_cast<Quantity*>(temp)->getObject())->getPosNode())==((*contributionIterator)->getTerminal()).getTerminalId())
+	    || (((static_cast<Quantity*>(temp)->getObject())->getNegNode())==((*contributionIterator)->getTerminal()).getTerminalId())) {
 	  (*contributionIterator)->insertQty(temp);
 	  (*contributionIterator)->setContribution();
         }
@@ -262,7 +262,7 @@ branchEquation::setBranch() {
 int 
 branchEquation::findBranch(int posNode, int negNode) {
   if (numberOfQuantities > 1) {
-    for (int i=1;i< numberOfQuantities ;i++) {
+    for (int i=1;i< numberOfQuantities ;++i) {
       if (branchQty[i]->getType() == THROUGH) {
         if ((branchQty[i]->getPosNode() != branchQty[0]->getPosNode()) ||
 	    (branchQty[i]->getNegNode() != branchQty[0]->getNegNode()) ) {
@@ -287,7 +287,7 @@ branchEquation::pointerAllocation() {
   }
   int Base = 0;
   int correctIndex = 0;
-  for (int i=0;i<numberOfQuantities;i++) {
+  for (int i=0;i<numberOfQuantities;++i) {
     Base = base[i];
     if (branchQty[i]->getType() == ACROSS) {
       int rhs1= ckt->addNodeCond(branchQty[i]->getPosNode(), EFFORT, branchQty[i]->getPosTerminal()->getTerminalName());
@@ -360,7 +360,7 @@ branchEquation::load() {
   adouble dependentVariable;
   // Start active section now
   trace_on(1);
-  for (int i=0;i<noOfQtys;i++) {
+  for (int i=0; i<noOfQtys; ++i) {
     qtyValues[i] = branchQty[i]->getValue(ckt);
     indepVariables[i] <<= qtyValues[i];
   }
@@ -375,11 +375,11 @@ branchEquation::load() {
   else {
     double* partialDerivatives = new double[noOfQtys];
     gradient(tag, noOfQtys, qtyValues, partialDerivatives);
-    for (int i=0;i<noOfQtys;i++) {
+    for (int i=0; i<noOfQtys; ++i) {
       lhsQty = lhsQty - partialDerivatives[i] * qtyValues[i];
     }     
     *(rhs+branch) -= lhsQty;
-    for (int i=0;i<numberOfQuantities;i++) {
+    for (int i=0; i<numberOfQuantities; ++i) {
       Base = base[i];
       if (ckt->getAnalysis() == 0) {
         // DC mode 

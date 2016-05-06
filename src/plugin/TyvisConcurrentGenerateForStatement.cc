@@ -784,7 +784,6 @@ void
 TyvisConcurrentGenerateForStatement::_publish_cc_createNetInfo( published_file &_cc_out, PublishData *declarations ){
   TyvisArchitectureStatement *arch_stmt = NULL;
   IIR_Boolean found = false;
-  int wanted_instantiation = 1;
   const string tmp  = _get_current_elab_name();
   const string tmp2 = _get_current_publish_name();
   Tyvis* tmpNode   = _get_current_publish_node();
@@ -852,7 +851,6 @@ TyvisConcurrentGenerateForStatement::_publish_cc_createNetInfo( published_file &
     }
     _set_current_elab_name( "" );
     found = FALSE;
-    wanted_instantiation = 1;
     arch_stmt = dynamic_cast<TyvisArchitectureStatement *>(get_concurrent_statement_part()->successor(arch_stmt));
   }
   _cc_out << "}\n\n";
