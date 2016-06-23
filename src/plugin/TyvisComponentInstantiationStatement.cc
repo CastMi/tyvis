@@ -46,6 +46,8 @@
 #include "TyvisTypeDefinition.hh"
 #include "savant/error_func.hh"
 #include "savant/set.hh"
+#include "savant/constraint_functors.hh"
+#include "savant/IIRScram_ComponentInstantiationStatement.hh"
 #include "savant/library_manager.hh"
 #include "published_file.hh"
 #include <sstream>
@@ -62,6 +64,25 @@ TyvisComponentInstantiationStatement::~TyvisComponentInstantiationStatement(){
   //Release the list memory
   delete get_generic_map_aspect();
   delete get_port_map_aspect();
+}
+
+void
+TyvisComponentInstantiationStatement::_publish_cc_main(published_file & main_writer ) {
+   /*
+  static unsigned int num = 0;
+  string myname = _get_cc_elaboration_class_name() + std::to_string(num);
+  _add_current_publish_name( myname );
+  main_writer << _get_cc_elaboration_class_name()
+     << "* " << myname << " = "
+     << "new " << _get_cc_elaboration_class_name()
+     << "( \"" << myname << "\" );" << NL()
+     << "object_pointers.push_back( " << myname << " );" << NL();
+  //_get_architecture_statement_part()->_publish_cc_main(main_writer);
+  _remove_current_publish_name( );
+  */
+  CC_REF( main_writer, "TyvisComponentInstantiationStatement::_publish_cc_main" );
+   _get_instantiated()->_publish_cc_main(main_writer);
+  CC_REF( main_writer, _get_instantiated()->get_declarator()->convert_to_string().c_str() );
 }
 
 void
@@ -320,6 +341,7 @@ TyvisComponentInstantiationStatement::_publish_cc_concurrent_stmt_init(published
                                                                        TyvisDeclarationList* ,
                                                                        PublishData *declarations ){
   CC_REF( _cc_out, "TyvisComponentInstantiationStatement::_publish_cc_concurrent_stmt_init" );
+  /*
   _cc_out << OS("{");
   ASSERT( IIRBase_ComponentInstantiationStatement::get_instantiated_unit()->get_kind() ==
 	  IIR_COMPONENT_DECLARATION );
@@ -438,6 +460,7 @@ TyvisComponentInstantiationStatement::_publish_cc_concurrent_stmt_init(published
   _cc_out << CS("}");
   
   _get_port_map_aspect()->_set_passed_through_out_port(TRUE);
+  */
 }
 
 void
@@ -1419,6 +1442,10 @@ TyvisComponentInstantiationStatement::_get_configuration() {
 Tyvis *
 TyvisComponentInstantiationStatement::_get_instantiated_unit() {
   return dynamic_cast<Tyvis *>(get_instantiated_unit());
+}
+Tyvis *
+TyvisComponentInstantiationStatement::_get_instantiated() {
+  return dynamic_cast<Tyvis *>(get_instantiated());
 }
 
 TyvisConfigurationSpecification*

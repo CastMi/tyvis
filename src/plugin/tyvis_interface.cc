@@ -28,7 +28,7 @@
 #include "savant/IIRBase.hh"
 #include "TyvisDesignFile.hh"
 
-IIR* 
+IIR*
 tyvis_interface::process_tree(IIR *old_tree, int, char *argv[]) {
   IIR                   *new_tree = NULL;
 

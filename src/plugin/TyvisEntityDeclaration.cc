@@ -65,7 +65,6 @@ TyvisEntityDeclaration::TyvisEntityDeclaration() {
   set_port_clause(new TyvisPortList());
   set_entity_declarative_part(new TyvisDeclarationList());
   set_entity_statement_part(new TyvisArchitectureStatementList());
-  set_architectures(new TyvisDesignUnitList());
 }
 
 TyvisEntityDeclaration::~TyvisEntityDeclaration(){
@@ -75,6 +74,13 @@ TyvisEntityDeclaration::~TyvisEntityDeclaration(){
   delete get_entity_declarative_part();
   delete get_entity_statement_part();
   delete get_architectures();
+}
+
+void
+TyvisEntityDeclaration::_publish_cc_main(published_file & main_writer ) {
+  CC_REF( main_writer, "TyvisEntityDeclaration::_publish_cc_main" );
+  //_get_cc_instantiated_architecture()->_publish_cc_main(main_writer);
+
 }
 
 TyvisArchitectureDeclaration *

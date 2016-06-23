@@ -61,7 +61,9 @@ TyvisDesignFile::_publish_cc( bool last_file_this_run ) {
   //_publish_cc_makefile( last_file_this_run );
 
   _get_library_units()->_publish_cc_elaborate();
-  if ( design_library_name.empty() ){
+   cout << "ffffffffffffffffffffffffffffffffffffffffffffffffffffff" << endl;
+  if ( !design_library_name.empty() ){
+   cout << "dddddddddddddddddddddddddddddddddddddd" << endl;
      assert(_get_work_library());
      assert(!_get_work_library()->get_path_to_directory().empty());
      published_cc_file cc_file( _get_work_library()->get_path_to_directory(),

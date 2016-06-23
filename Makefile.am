@@ -108,7 +108,7 @@ IEEE_VHDL_FILES = \
 
 IEEE_LA_FILE = $(IEEE_DIR)/ieee._savant_lib.la
 
-PROCESS_IEEE_LIBS=$(SCRAM) --design-library-name ieee --publish-cc
+PROCESS_IEEE_LIBS=$(SCRAM) --debug-symbol-table --design-library-name ieee --publish-cc
 
 $(IEEE_CPP_FILES): $(IEEE_VHDL_FILES) $(libdir)/libtyvisplugin.la
 	$(PROCESS_IEEE_LIBS) $(IEEE_VHDL_FILES)

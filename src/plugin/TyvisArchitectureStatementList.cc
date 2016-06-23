@@ -64,7 +64,7 @@ void
 TyvisArchitectureStatementList::_publish_cc_main( published_file &_cc_out) {
   TyvisArchitectureStatement        *node                   = NULL;
 
-  CC_REF( _cc_out, "TyvisArchitectureStatementList::_publish_cc" );
+  CC_REF( _cc_out, "TyvisArchitectureStatementList::_publish_cc_main" );
   for (node = dynamic_cast<TyvisArchitectureStatement *>(first()); 
        node != NULL; 
        node = dynamic_cast<TyvisArchitectureStatement *>(successor(node))) {

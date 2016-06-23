@@ -450,30 +450,12 @@ Tyvis::_publish_cc_destructor( published_file &_cc_out,
   while (conc_stmt != NULL) {
     switch(conc_stmt->get_kind()) {
     case IIR_PROCESS_STATEMENT:
-      if(get_kind() == IIR_CONCURRENT_GENERATE_FOR_STATEMENT) {
-	_cc_out << "delete ";
-	_cc_out << " [] ";
-	
-	if (conc_stmt->_get_mangled_label() != NULL) {
-	  _cc_out.get_stream() << *(conc_stmt->_get_mangled_label());
-	}
-	else {
-	  _cc_out << "ANON_PROCESS" << conc_stmt;
-	}
-	_cc_out << "_elab_obj;" << NL();
-      }
       break;
       
     case IIR_COMPONENT_INSTANTIATION_STATEMENT:
     case IIR_BLOCK_STATEMENT:
     case IIR_CONCURRENT_GENERATE_FOR_STATEMENT:
     case IIR_CONCURRENT_GENERATE_IF_STATEMENT:
-      _cc_out << "delete ";
-      if( get_kind() == IIR_CONCURRENT_GENERATE_FOR_STATEMENT ){
-	_cc_out << " [] ";
-      }
-      conc_stmt->_get_mangled_label()->_publish_cc_elaborate( _cc_out.get_stream() );
-      _cc_out << "_elab_obj;" << NL();
       break;
     case IIR_SIMPLE_SIMULTANEOUS_STATEMENT:
     case IIR_SIMULTANEOUS_IF_STATEMENT:

@@ -65,7 +65,8 @@ public:
   void _publish_connect( published_file &_cc_out, PublishData *declarations );
   void _publish_connect_terminals( published_file &_cc_out, PublishData *declarations );
   void _publish_form_characteristic_expressions( published_file & );
-
+  
+  void _publish_cc_main(published_file & main_writer );
   void _publish_cc_concurrent_stmt_init( published_file &_cc_out,
 					 TyvisDeclarationList *decl_list,
 					 PublishData *declarations );
@@ -85,6 +86,7 @@ public:
   TyvisAssociationList *_get_port_map_aspect();
   Tyvis                *_get_configuration();
   Tyvis                *_get_instantiated_unit();
+  Tyvis                *_get_instantiated();
 protected:
   TyvisConfigurationSpecification *
   _build_implicit_configuration_specification(TyvisLibraryUnit *, TyvisComponentDeclaration *);

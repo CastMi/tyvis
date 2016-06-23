@@ -65,7 +65,7 @@ protected:
   virtual std::vector<std::shared_ptr<warped::Event>> assignSignal( const std::string& name,
 			     const int value, 
 			     unsigned int delay,
-			     const VTime& timestamp ) = 0;
+			     const VTime& timestamp ) {};
 
   // Element state
   MyState state_;

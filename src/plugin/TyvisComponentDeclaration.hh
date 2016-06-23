@@ -52,6 +52,7 @@ public:
   void _publish_cc_createNetInfo( published_file &_cc_out, PublishData *declarations );
   void _publish_cc_connect( published_file &_cc_out, PublishData *declarations );
   void _publish_cc_getboundentityinfo( published_file &_cc_out );
+  void _publish_cc_main( published_file& main_writer );
 
   using TyvisDeclaration::_publish_cc_include;
   void _publish_cc_include( published_file &_cc_out );
@@ -66,6 +67,7 @@ public:
   TyvisPortList                          *_get_local_port_clause();
   TyvisGenericList                       *_get_generic_list();
   TyvisPortList                          *_get_entity_port_clause();
+  TyvisEntityDeclaration                 *_get_entity();
 
 protected:
 

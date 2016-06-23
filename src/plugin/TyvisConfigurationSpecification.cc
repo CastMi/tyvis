@@ -53,10 +53,11 @@ TyvisConfigurationSpecification::_publish_cc_port_map_aspect( published_file &_c
 							      PublishData *declarations ) {
   ASSERT( _get_current_publish_node() != NULL );
   ASSERT( dynamic_cast<TyvisConcurrentStatement *>(_get_current_publish_node()) );
+  CC_REF( _cc_out, "TyvisConfigurationSpecification::_publish_cc_port_map_aspect" );
+   /*
   TyvisConcurrentStatement* concurrent_stmt =
     dynamic_cast<TyvisConcurrentStatement*>( _get_current_publish_node());
 
-  CC_REF( _cc_out, "TyvisConfigurationSpecification::_publish_cc_port_map_aspect" );
   if(get_port_map_aspect()->size() > 0) {
     _cc_out << OS("{");
     _cc_out.insert_comment( "Alias instantiated component as \"component\"" );
@@ -105,6 +106,7 @@ TyvisConfigurationSpecification::_publish_cc_port_map_aspect( published_file &_c
       
     _cc_out << CS("}");
   }
+  */
 }
 
 TyvisDesignatorList * 

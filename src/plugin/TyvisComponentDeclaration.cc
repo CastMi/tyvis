@@ -26,6 +26,7 @@
 #include "TyvisAttributeSpecification.hh"
 #include "TyvisAttributeSpecificationList.hh"
 #include "TyvisComponentDeclaration.hh"
+#include "TyvisEntityDeclaration.hh"
 #include "TyvisConstantInterfaceDeclaration.hh"
 #include "TyvisDesignFile.hh"
 #include "TyvisGenericList.hh"
@@ -64,6 +65,12 @@ TyvisComponentDeclaration::~TyvisComponentDeclaration() {
 }
 
 void
+TyvisComponentDeclaration::_publish_cc_main(published_file & main_writer ) {
+  CC_REF( main_writer, "TyvisComponentDeclaration::_publish_cc_main" );
+  _get_entity()->_publish_cc_main(main_writer);
+}
+
+void
 TyvisComponentDeclaration::_publish_cc_binding_name(ostream& outstream) {
   outstream << *_get_mangled_declarator();
 }
@@ -93,17 +100,12 @@ TyvisComponentDeclaration::_publish_cc_headerfile(PublishData *declarations){
 				     this );
   CC_REF( header_file, "TyvisComponentDeclaration::_publish_cc_headerfile" );
 
-  Tyvis::_publish_cc_include( header_file, "tyvis/_savant_entity_elab.hh" );
   if ( lang_proc->processing_vhdl_ams() ) {
-    Tyvis::_publish_cc_include( header_file, "tyvis/_savant_entity_ams_elab.hh" );
+    //Tyvis::_publish_cc_include( header_file, "tyvis/_savant_entity_ams_elab.hh" );
   }
-  Tyvis::_publish_cc_include( header_file, "tyvis/SignalNetinfo.hh" );
-
-  // Request the Hierarchy.hh for our hierarchy stuff
-  Tyvis::_publish_cc_include( header_file, "tyvis/Hierarchy.hh" );
 
   if( lang_proc->processing_vhdl_ams() ){
-    Tyvis::_publish_cc_include( header_file, "tyvis/_savant_entity_ams_elab.hh" );
+    //Tyvis::_publish_cc_include( header_file, "tyvis/_savant_entity_ams_elab.hh" );
   }
 
 
@@ -127,10 +129,11 @@ TyvisComponentDeclaration::_publish_cc_class( published_file &_cc_out,
   }
   string elabString = elabStream.str();
 
+  Tyvis::_publish_cc_include( _cc_out, "tyvis/VHDLKernel.hh" );
   _cc_out << "class " << _get_cc_elaboration_class_name()
-          << OS(": public" + elabString + "{");
+          << OS(": public VHDLKernel {");
   _cc_out << "public:" << NL();
-  _cc_out << _get_cc_elaboration_class_name() << "();" << NL();
+  _cc_out << _get_cc_elaboration_class_name() << "( const std::string& name );" << NL();
 
   if( _get_local_generic_clause()->size() > 0 ){
     _cc_out << OS( _get_cc_elaboration_class_name() + "(" ) << NL();
@@ -140,16 +143,8 @@ TyvisComponentDeclaration::_publish_cc_class( published_file &_cc_out,
 
   _cc_out << "~" << _get_cc_elaboration_class_name() << "();" << NL();
 
-  _get_local_generic_clause()->_publish_cc_elaborate( _cc_out, declarations );
-  _get_local_port_clause()->_publish_cc_elaborate( _cc_out, declarations );
-  _cc_out << elabString << " *boundedEntity;" << NL()
-	  << "void instantiate( Hierarchy *hier, const string parent_base, const char *local_name );" << NL()
-          << "std::string _base;" << NL()
-          << "std::string get_base() {return(_base);}" << NL()
-	  << "void createNetInfo();" << NL()
-	  << "void connect(int, int, ...);" << NL()
-	  << "void partition(){}" << NL()
-	  << "void buildSignalTree();" << NL();
+  //_get_local_generic_clause()->_publish_cc_elaborate( _cc_out, declarations );
+  //_get_local_port_clause()->_publish_cc_elaborate( _cc_out, declarations );
   if( lang_proc->processing_vhdl_ams() ){
     _cc_out << "void connectTerminals(int, ...);"<<NL()
             << "void formCharacteristicExpressions();"<<NL();
@@ -181,11 +176,11 @@ TyvisComponentDeclaration::_publish_cc_ccfile(PublishData *declarations){
   _publish_cc_include( cc_file );
   _publish_cc_constructor( cc_file, declarations );
   _publish_cc_destructor( cc_file );
-  _publish_cc_instantiate( cc_file );
-  _publish_cc_createNetInfo( cc_file, declarations );
-  _publish_cc_connect( cc_file, declarations );
+  //_publish_cc_instantiate( cc_file );
+  //_publish_cc_createNetInfo( cc_file, declarations );
+  //_publish_cc_connect( cc_file, declarations );
   //  _publish_cc_partition( cc_file );
-  _publish_cc_getboundentityinfo( cc_file );
+  // _publish_cc_getboundentityinfo( cc_file );
   if( lang_proc->processing_vhdl_ams() ) {
     _publish_cc_ams_connect_terminals( cc_file, declarations );
     _publish_cc_ams_form_characteristic_expressions( cc_file );
@@ -211,12 +206,13 @@ TyvisComponentDeclaration::_publish_cc_constructor_with_no_arguments( published_
   bool published_initializers = false;
   CC_REF( _cc_out, "TyvisComponentDeclaration::_publish_cc_constructor_with_no_arguments" );
 
-  _cc_out << _get_cc_elaboration_class_name()
-	  << "::"
-	  << _get_cc_elaboration_class_name() << "()";
+  _cc_out << _get_cc_elaboration_class_name() << "::"
+	  << _get_cc_elaboration_class_name() << OS("(")
+	  << "const std::string& name ) :" << NL()
+     << "VHDLKernel( name )" << NL();
 
   if( numPortClause > 0 || _get_local_generic_clause()->size() > 0 ) {
-    _cc_out << OS(":") << NL();
+    //_cc_out << OS(":") << NL();
     published_initializers = true;
   }
   _get_local_generic_clause()->_publish_generic_init( _cc_out, declarations );
@@ -230,10 +226,9 @@ TyvisComponentDeclaration::_publish_cc_constructor_with_no_arguments( published_
     _cc_out << CS("");
   }
 
+  _cc_out << OS("{");
   _get_local_port_clause()->_publish_cc_port_init( _cc_out, declarations );
-  _cc_out << OS("{")
-	  << "boundedEntity = NULL;"
-	  << CS("}");
+_cc_out << CS("}");
 }
 
 void 
@@ -264,10 +259,8 @@ TyvisComponentDeclaration::_publish_cc_destructor( published_file &_cc_out ) {
 
   CC_REF( _cc_out, "TyvisComponentDeclaration::_publish_cc_destructor" );
 
-  _cc_out << OS(_get_cc_elaboration_class_name() + "::~"
-		+ _get_cc_elaboration_class_name() + "(){")
-	  << "delete boundedEntity;" << NL()
-	  << CS("}");
+  _cc_out << _get_cc_elaboration_class_name() + "::~"
+		+ _get_cc_elaboration_class_name() + "() {}" << NL() << NL();
 }
 
 void
@@ -457,7 +450,7 @@ void
 TyvisComponentDeclaration::_publish_cc_include( published_file &_cc_out ){
   CC_REF( _cc_out, 
 		"TyvisComponentDeclaration::_publish_cc_include( published_file &_cc_out )");
-  const string filename = _get_cc_elaboration_class_name() + ".hh";
+  const string filename = _get_cc_elaboration_class_name() + ".hpp";
   Tyvis::_publish_cc_include(_cc_out, filename );
 }
 
@@ -551,6 +544,11 @@ TyvisComponentDeclaration::_get_local_generic_clause() {
 TyvisPortList *
 TyvisComponentDeclaration::_get_local_port_clause() {
   return dynamic_cast<TyvisPortList *>(get_local_port_clause());
+}
+
+TyvisEntityDeclaration*
+TyvisComponentDeclaration::_get_entity() {
+  return dynamic_cast<TyvisEntityDeclaration *>(get_entity());
 }
 
 TyvisAttributeSpecificationList*

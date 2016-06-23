@@ -34,7 +34,8 @@ public:
   ~TyvisEntityDeclaration();
 
   void _add_decl_into_declaration_collection(PublishData *){}
-
+  
+  void _publish_cc_main(published_file & main_writer );
   void _publish_cc();
   void _publish_cc_elaborate();
   void _publish_cc_object_pointers_init( published_file &_cc_out, PublishData *declarations );
