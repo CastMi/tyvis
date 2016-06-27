@@ -67,10 +67,8 @@ TyvisConcurrentConditionalSignalAssignment::~TyvisConcurrentConditionalSignalAss
 
 void
 TyvisConcurrentConditionalSignalAssignment::_publish_cc_main(published_file& main_printer) {
-   static int num = 0;
+   CC_REF( main_printer, "TyvisConcurrentConditionalSignalAssignment::_publish_cc_main" );
    std::string *current_name = _get_full_current_publish_name();
-   std::string myname = *current_name + "logicGate" + std::to_string(num++);
-   _add_current_publish_name( myname );
    // FIXME: Only simple assignments are covered for the time being.
    assert(_get_conditional_waveforms()->num_elements() == 1);
    assert(_get_conditional_waveforms()->first()->get_waveform()->num_elements() == 1);
@@ -86,6 +84,7 @@ TyvisConcurrentConditionalSignalAssignment::_publish_cc_main(published_file& mai
         abort();
         break;
   }
+   std::string myname = *_get_full_current_publish_name();
    const std::string left_operand = dynamic_cast<TyvisSignalInterfaceDeclaration*>(dynamic_cast<TyvisDyadicOperator*>(_get_conditional_waveforms()->first()->get_waveform()->first()->get_value())->get_left_operand())->get_declarator()->get_text();
    const std::string right_operand = dynamic_cast<TyvisSignalInterfaceDeclaration*>(dynamic_cast<TyvisDyadicOperator*>(_get_conditional_waveforms()->first()->get_waveform()->first()->get_value())->get_right_operand())->get_declarator()->get_text();
    const std::string target = _get_target()->get_declarator()->get_text();

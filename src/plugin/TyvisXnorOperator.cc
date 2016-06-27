@@ -32,18 +32,18 @@
 
 void
 TyvisXnorOperator::_publish_cc_main(published_file& main_printer) {
+   CC_REF( main_printer, "TyvisXnorOperator::_publish_cc_main" );
    static unsigned num = 0;
    if( num == 0 ) {
         main_printer.add_include("XNor.hpp", false);
    }
-   std::string myname = *_get_full_current_publish_name() + "logicGate" + std::to_string(num++);
+   std::string myname = *_get_full_current_publish_name() + "_XnorGate" + std::to_string(num++);
    main_printer << "XNor * " << myname << " = new XNor( \"" << myname << "\" );" << NL();
    main_printer << "object_pointers.push_back( " << myname << " );" << NL();
    const std::string left_operand = dynamic_cast<TyvisSignalInterfaceDeclaration*>(get_left_operand())->get_declarator()->get_text();
    const std::string right_operand = dynamic_cast<TyvisSignalInterfaceDeclaration*>(get_right_operand())->get_declarator()->get_text();
    main_printer << myname << "->addSignal( \"" << left_operand << "\");" << NL();
    main_printer << myname << "->addSignal( \"" << right_operand << "\");" << NL();
-   num++;
 }
 
 void
@@ -115,6 +115,7 @@ TyvisXnorOperator::_publish_cc() {
       << CS("};");
    assert(done == true);
 }
+
 const string &
 TyvisXnorOperator::_get_cc_operator_name() const {
    static const string operator_name = "vhdlXnor";

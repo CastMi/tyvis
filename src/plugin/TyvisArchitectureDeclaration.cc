@@ -82,8 +82,9 @@ TyvisArchitectureDeclaration::~TyvisArchitectureDeclaration()
 
 void TyvisArchitectureDeclaration::_publish_cc_main(published_file & main_writer ) {
   static unsigned int num = 0;
-  string myname = _get_cc_elaboration_class_name() + std::to_string(num);
+  string myname = _get_cc_elaboration_class_name() + std::to_string(num++);
   _add_current_publish_name( myname );
+  main_writer.add_include(_get_cc_elaboration_class_name() + ".hpp", false);
   CC_REF( main_writer, "TyvisArchitectureDeclaration::_publish_cc_main" );
   main_writer << _get_cc_elaboration_class_name()
      << "* " << myname << " = "

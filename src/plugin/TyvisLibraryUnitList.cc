@@ -44,6 +44,7 @@ TyvisLibraryUnitList::_publish_cc_main( published_file& file_writer ) {
   TyvisLibraryUnit *lib_unit = dynamic_cast<TyvisLibraryUnit *>(first());
 
   while (lib_unit != NULL) {
+    CC_REF( file_writer, "TyvisLibraryUnitList::_publish_cc_main" );
     lib_unit->_publish_cc_main( file_writer );
     lib_unit = dynamic_cast<TyvisLibraryUnit *>(successor(lib_unit));
   }
