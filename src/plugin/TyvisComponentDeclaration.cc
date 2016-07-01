@@ -142,6 +142,8 @@ TyvisComponentDeclaration::_publish_cc_class( published_file &_cc_out,
   }
 
   _cc_out << "~" << _get_cc_elaboration_class_name() << "();" << NL();
+  Tyvis::_publish_cc_include( _cc_out, "warped.hpp" );
+  _cc_out << "std::vector<std::shared_ptr<warped::Event>> receiveEvent( const warped::Event& ) override;" << NL();
 
   //_get_local_generic_clause()->_publish_cc_elaborate( _cc_out, declarations );
   //_get_local_port_clause()->_publish_cc_elaborate( _cc_out, declarations );
