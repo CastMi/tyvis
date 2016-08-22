@@ -40,8 +40,6 @@ public:
 protected:
   virtual void publish_headers( ofstream & );
   virtual void publish_footers( ofstream & );
-
-private:
   static const string get_file_suffix();
 };
 

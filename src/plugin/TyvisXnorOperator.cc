@@ -37,7 +37,8 @@ TyvisXnorOperator::_publish_cc_main(published_file& main_printer) {
    if( num == 0 ) {
         main_printer.add_include("XNor.hpp", false);
    }
-   std::string myname = *_get_full_current_publish_name() + "_XnorGate" + std::to_string(num++);
+   _add_current_publish_name( std::string("XnorGate") + std::to_string(num++) );
+   std::string myname = *_get_full_current_publish_name();
    main_printer << "XNor * " << myname << " = new XNor( \"" << myname << "\" );" << NL();
    main_printer << "object_pointers.push_back( " << myname << " );" << NL();
    const std::string left_operand = dynamic_cast<TyvisSignalInterfaceDeclaration*>(get_left_operand())->get_declarator()->get_text();

@@ -67,7 +67,9 @@ TyvisComponentDeclaration::~TyvisComponentDeclaration() {
 void
 TyvisComponentDeclaration::_publish_cc_main(published_file & main_writer ) {
   CC_REF( main_writer, "TyvisComponentDeclaration::_publish_cc_main" );
-  _get_entity()->_publish_cc_main(main_writer);
+  // this is the entity that declared me, not the one I am referring to
+  //if(_get_entity())
+  //   _get_entity()->_publish_cc_main(main_writer);
 }
 
 void

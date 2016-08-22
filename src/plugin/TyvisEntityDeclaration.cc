@@ -48,6 +48,7 @@
 #include "TyvisUseClause.hh"
 #include "TyvisDesignUnitList.hh"
 
+#include "savant/IIR_LibraryUnitList.hh"
 #include "savant/library_manager.hh"
 #include "savant/resolution_func.hh"
 #include "savant/set.hh"
@@ -79,13 +80,15 @@ TyvisEntityDeclaration::~TyvisEntityDeclaration(){
 void
 TyvisEntityDeclaration::_publish_cc_main(published_file & main_writer ) {
   CC_REF( main_writer, "TyvisEntityDeclaration::_publish_cc_main" );
-  //_get_cc_instantiated_architecture()->_publish_cc_main(main_writer);
+  TyvisArchitectureDeclaration * tmp= _get_cc_instantiated_architecture();
+  //std::cerr << _get_cc_elaboration_class_name();
+  //tmp->_publish_cc_main(main_writer);
 
 }
 
 TyvisArchitectureDeclaration *
 TyvisEntityDeclaration::_get_cc_instantiated_architecture(){
-  return dynamic_cast<TyvisArchitectureDeclaration *>(library_manager::instance()->lookup_default_architecture( this ));
+  return dynamic_cast<TyvisArchitectureDeclaration *>(get_architectures()->first());
 }
 
 TyvisEntityDeclaration *

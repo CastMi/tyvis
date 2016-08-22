@@ -572,6 +572,8 @@ libtyvisplugin_la_SOURCES = \
 	publish_modifiers.hh \
 	published_cc_file.cc \
 	published_cc_file.hh \
+	published_main_file.cc \
+	published_main_file.hh \
 	published_file.cc \
 	published_file.hh \
 	published_header_file.cc \

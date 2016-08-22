@@ -86,7 +86,6 @@ public:
   TyvisAssociationList *_get_port_map_aspect();
   Tyvis                *_get_configuration();
   Tyvis                *_get_instantiated_unit();
-  Tyvis                *_get_instantiated();
 protected:
   TyvisConfigurationSpecification *
   _build_implicit_configuration_specification(TyvisLibraryUnit *, TyvisComponentDeclaration *);

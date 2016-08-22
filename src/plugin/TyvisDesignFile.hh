@@ -75,7 +75,5 @@ public:
   TyvisLibraryUnitList           *_get_library_units();
   TyvisCommentList               *_get_comments();
 
-protected:
-private:
 };
 #endif

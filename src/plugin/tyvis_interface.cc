@@ -27,16 +27,28 @@
 
 #include "savant/IIRBase.hh"
 #include "TyvisDesignFile.hh"
+#include "tyvis_interface.hh"
+#include "published_main_file.hh"
+#include "TyvisLibraryDeclaration.hh"
+
+published_main_file* zapzap = nullptr;
 
 IIR*
 tyvis_interface::process_tree(IIR *old_tree, int, char *argv[]) {
-  IIR                   *new_tree = NULL;
+  IIR* new_tree = dynamic_cast<IIRBase *>(old_tree)->convert_tree(tyvis_plugin_class_factory::instance());
 
-  new_tree =
-    dynamic_cast<IIRBase *>(old_tree)->convert_tree(tyvis_plugin_class_factory::instance());
+  TyvisDesignFile* to_print = dynamic_cast<TyvisDesignFile *>(new_tree);
+  assert(to_print);
+  if( !zapzap )
+     zapzap = new published_main_file( to_print->_get_work_library()->get_path_to_directory(), to_print );
+  assert(zapzap);
   bool last_tree = static_cast<bool>(argv[0]);
-  dynamic_cast<TyvisDesignFile *>(new_tree)->_publish_cc( last_tree );
+  to_print->_publish_cc( last_tree );
 
+  if(last_tree) {
+     assert(zapzap);
+     delete zapzap;
+  }
   return new_tree;
 }
 

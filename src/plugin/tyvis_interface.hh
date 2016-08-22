@@ -26,10 +26,12 @@
 // --------------------------------------------------------------------------
 
 #include "savant/plugin_interface.hh"
+#include "published_cc_file.hh"
 
 /** TyVIS Implementation of the plugin interface. */
 class tyvis_interface : public plugin_interface {
 public:
+
   /** @return a string saying what the module is for. */
   const string getPluginType() const;
 
@@ -39,6 +41,7 @@ public:
   /** Publishes C++.  This function is the start of the TyVIS C++
       code generation interface section. */
   IIR* process_tree(IIR*, int argc, char *argv[]);
+
 };
 
 #endif

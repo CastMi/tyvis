@@ -81,8 +81,7 @@ TyvisComponentInstantiationStatement::_publish_cc_main(published_file & main_wri
   _remove_current_publish_name( );
   */
   CC_REF( main_writer, "TyvisComponentInstantiationStatement::_publish_cc_main" );
-   _get_instantiated()->_publish_cc_main(main_writer);
-  CC_REF( main_writer, _get_instantiated()->get_declarator()->convert_to_string().c_str() );
+  //_get_instantiated_unit()->_publish_cc_main(main_writer);
 }
 
 void
@@ -1442,10 +1441,6 @@ TyvisComponentInstantiationStatement::_get_configuration() {
 Tyvis *
 TyvisComponentInstantiationStatement::_get_instantiated_unit() {
   return dynamic_cast<Tyvis *>(get_instantiated_unit());
-}
-Tyvis *
-TyvisComponentInstantiationStatement::_get_instantiated() {
-  return dynamic_cast<Tyvis *>(get_instantiated());
 }
 
 TyvisConfigurationSpecification*
